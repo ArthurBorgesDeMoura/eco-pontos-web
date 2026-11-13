@@ -1,0 +1,36 @@
+@use 'abstratos' as *;
+
+.formulario__cartao {
+  display: grid;
+  gap: var(--espaco-20);
+  max-width: var(--largura-formulario-sugestao);
+  padding: var(--espaco-20) var(--espaco-16);
+  border: var(--espessura-linha) solid var(--cor-borda-cartao);
+  border-radius: var(--raio-cartao);
+  background-color: var(--cor-fundo-superficie);
+
+  @include a-partir-de(tablet) {
+    padding: var(--espaco-24);
+  }
+}
+
+.formulario__aviso {
+  @include texto(corpo-14);
+
+  display: grid;
+  justify-items: start;
+  gap: var(--espaco-12);
+  color: var(--cor-status-recusado-texto);
+}
+
+.formulario__acoes {
+  display: grid;
+  gap: var(--espaco-8);
+  padding-top: var(--espaco-20);
+  border-top: var(--espessura-linha) solid var(--cor-borda-linha);
+
+  @include a-partir-de(desktop) {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

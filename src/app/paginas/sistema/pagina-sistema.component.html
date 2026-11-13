@@ -1,0 +1,216 @@
+<main #conteudo class="conteudo pagina" [attr.inert]="dialogo !== 'fechado' ? '' : null">
+  <header class="cabecalho">
+    <h1 class="cabecalho__titulo">Sistema</h1>
+    <p class="cabecalho__descricao">
+      Página de teste do FE-01: os tokens de cor, texto, medidas, ícones e movimento do protótipo, e a conexão com a
+      API.
+    </p>
+    <p class="cabecalho__layout">
+      Janela de {{ layout.janela }} px · margem de {{ layout.margem }} px · coluna de {{ layout.coluna }} px
+    </p>
+  </header>
+
+  <section class="secao" aria-labelledby="titulo-cores">
+    <h2 id="titulo-cores" class="secao__titulo">Cores</h2>
+    <div *ngFor="let grupo of gruposDeCores" class="grupo">
+      <h3 class="grupo__titulo">{{ grupo.titulo }}</h3>
+      <ul class="cores">
+        <li *ngFor="let cor of grupo.cores" class="cor">
+          <span class="cor__amostra" [ngClass]="'cor__amostra--' + cor.token" aria-hidden="true"></span>
+          <code class="cor__token">--cor-{{ cor.token }}</code>
+          <span class="cor__valor">{{ valores['cor-' + cor.token] }}</span>
+          <span class="cor__uso">{{ cor.rotulo }}</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="secao" aria-labelledby="titulo-texto">
+    <h2 id="titulo-texto" class="secao__titulo">Texto</h2>
+    <p class="nota">
+      Os 14 estilos do quadro Tipografia do Figma, em Atkinson Hyperlegible Next nos pesos 400, 500 e 600.
+    </p>
+    <ul class="estilos">
+      <li *ngFor="let estilo of estilosTexto" class="estilo">
+        <span class="estilo__nome">{{ estilo.rotulo }}</span>
+        <span class="estilo__amostra" [ngClass]="'texto-' + estilo.token">Pontos de coleta em Uberlândia</span>
+        <span class="estilo__medidas">{{ descreverEstilo(valores['texto-' + estilo.token]) }}</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="secao" aria-labelledby="titulo-medidas">
+    <h2 id="titulo-medidas" class="secao__titulo">Medidas</h2>
+
+    <div class="grupo">
+      <h3 class="grupo__titulo">Espaços</h3>
+      <ul class="espacos">
+        <li *ngFor="let espaco of espacos" class="espaco">
+          <code class="espaco__token">--espaco-{{ espaco }}</code>
+          <span class="espaco__barra" [ngClass]="'espaco__barra--' + espaco" aria-hidden="true"></span>
+          <span class="espaco__valor">{{ formatar(valores['espaco-' + espaco]) }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="grupo">
+      <h3 class="grupo__titulo">Raios</h3>
+      <ul class="caixas">
+        <li *ngFor="let raio of raios" class="caixa">
+          <span class="caixa__raio" [ngClass]="'caixa__raio--' + raio.token" aria-hidden="true"></span>
+          <span class="caixa__nome">{{ raio.rotulo }}</span>
+          <span class="caixa__valor">{{ formatar(valores[raio.token]) }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="grupo">
+      <h3 class="grupo__titulo">Alturas de controle</h3>
+      <ul class="caixas">
+        <li *ngFor="let altura of alturas" class="caixa">
+          <span class="caixa__altura" [ngClass]="'caixa__altura--' + altura.token" aria-hidden="true"></span>
+          <span class="caixa__nome">{{ altura.rotulo }}</span>
+          <span class="caixa__valor">{{ formatar(valores[altura.token]) }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <p class="nota">
+      Coluna de conteúdo de {{ formatar(valores['coluna-conteudo']) }}: no desktop de 1440 px, sobram 160 px de cada
+      lado. A margem é de {{ formatar(valores['margem-celular']) }} no celular e de
+      {{ formatar(valores['margem-tablet']) }} no tablet.
+    </p>
+  </section>
+
+  <section class="secao" aria-labelledby="titulo-icones">
+    <h2 id="titulo-icones" class="secao__titulo">Ícones</h2>
+    <ul *ngIf="icones.length; else semIcones" class="icones">
+      <li *ngFor="let nome of icones" class="icone-amostra">
+        <eco-icone [nome]="nome" [tamanho]="24"></eco-icone>
+        <code>{{ nome }}</code>
+      </li>
+    </ul>
+    <ng-template #semIcones>
+      <p class="nota">
+        Os ícones ainda não foram exportados do Figma. Ponha os SVGs em <code>frontend/icones/</code> e rode
+        <code>npm run icones</code>.
+      </p>
+    </ng-template>
+  </section>
+
+  <section class="secao" aria-labelledby="titulo-movimento">
+    <h2 id="titulo-movimento" class="secao__titulo">Movimento</h2>
+    <p class="nota" aria-live="polite">
+      Reduzir movimento está <strong>{{ reduzirMovimento ? 'ativado' : 'desativado' }}</strong> no sistema.
+      {{ reduzirMovimento ? 'Nada se move: tudo só esmaece.' : '' }}
+    </p>
+    <dl class="movimentos">
+      <div *ngFor="let movimento of movimentos" class="movimento">
+        <dt class="movimento__nome">{{ movimento.rotulo }}</dt>
+        <dd class="movimento__valor">{{ formatar(valores[movimento.token]) }}</dd>
+      </div>
+    </dl>
+
+    <div class="demonstracoes">
+      <div class="demonstracao">
+        <h3 class="grupo__titulo">Pressionar e hover</h3>
+        <p class="nota">Encolhe para 97% enquanto está pressionado; com mouse, o hover clareia em 150 ms.</p>
+        <button type="button" class="botao botao--secundario">Pressione e segure</button>
+      </div>
+
+      <div class="demonstracao">
+        <h3 class="grupo__titulo">Diálogo</h3>
+        <p class="nota">Entra em 200 ms, a partir de 95% do tamanho, com o fundo escurecido a 40%.</p>
+        <button #botaoDialogo type="button" class="botao botao--primario" (click)="abrirDialogo()">
+          Abrir diálogo
+        </button>
+      </div>
+
+      <div class="demonstracao">
+        <h3 class="grupo__titulo">Empurrar tela</h3>
+        <p class="nota">No celular, a tela seguinte entra pela direita em 250 ms.</p>
+        <div class="moldura">
+          <section
+            class="tela"
+            aria-label="Tela inicial do exemplo"
+            [attr.inert]="detalhes !== 'fechado' ? '' : null"
+          >
+            <p class="tela__titulo">Pontos de coleta</p>
+            <button #botaoDetalhes type="button" class="botao botao--secundario" (click)="abrirDetalhes()">
+              Abrir detalhes
+            </button>
+          </section>
+          <section
+            *ngIf="detalhes !== 'fechado'"
+            class="tela tela--empurrada"
+            [class.tela--saindo]="detalhes === 'saindo'"
+            aria-label="Tela de detalhes"
+            (animationend)="aoTerminarAnimacaoDosDetalhes($event)"
+          >
+            <p class="tela__titulo">Detalhes do ponto</p>
+            <button #botaoVoltar type="button" class="botao botao--secundario" (click)="voltar()">Voltar</button>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao" aria-labelledby="titulo-api">
+    <h2 id="titulo-api" class="secao__titulo">Conexão com a API</h2>
+    <p class="nota">
+      Modo: <strong>{{ modoSimulado ? 'Respostas simuladas' : 'API real' }}</strong>, em
+      <code>{{ enderecoApi }}</code>.
+    </p>
+    <div aria-live="polite">
+      <p *ngIf="estadoApi === 'carregando'" class="nota">Carregando bairros e categorias…</p>
+
+      <div *ngIf="estadoApi === 'erro'" class="aviso-erro">
+        <p>{{ erroApi?.mensagem }}</p>
+        <button type="button" class="botao botao--secundario" (click)="carregarDadosDaApi()">Tentar de novo</button>
+      </div>
+
+      <div *ngIf="estadoApi === 'pronto'" class="dados-api">
+        <div class="grupo">
+          <h3 id="titulo-bairros" class="grupo__titulo">Bairros ({{ bairros.length }})</h3>
+          <ul class="lista-simples" aria-labelledby="titulo-bairros">
+            <li *ngFor="let bairro of bairros">{{ bairro.nome }}</li>
+          </ul>
+        </div>
+        <div class="grupo">
+          <h3 id="titulo-categorias" class="grupo__titulo">Categorias ({{ categorias.length }})</h3>
+          <ul class="lista-simples" aria-labelledby="titulo-categorias">
+            <li *ngFor="let categoria of categorias">{{ categoria.nome }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div *ngIf="dialogo !== 'fechado'" class="camada-dialogo">
+  <div
+    class="camada-dialogo__fundo"
+    [class.camada-dialogo__fundo--saindo]="dialogo === 'saindo'"
+    (click)="fecharDialogo()"
+  ></div>
+  <div
+    #janelaDialogo
+    class="dialogo"
+    [class.dialogo--saindo]="dialogo === 'saindo'"
+    role="dialog"
+    aria-modal="true"
+    tabindex="-1"
+    aria-labelledby="titulo-dialogo"
+    aria-describedby="texto-dialogo"
+    (keydown)="teclaNoDialogo($event)"
+    (animationend)="aoTerminarAnimacaoDoDialogo($event)"
+  >
+    <h2 id="titulo-dialogo" class="dialogo__titulo">Diálogo de exemplo</h2>
+    <p id="texto-dialogo" class="dialogo__texto">
+      Esc, o botão Fechar ou um clique fora fecham o diálogo, e o foco volta para o botão que o abriu.
+    </p>
+    <div class="dialogo__acoes">
+      <button type="button" class="botao botao--primario" (click)="fecharDialogo()">Fechar</button>
+    </div>
+  </div>
+</div>

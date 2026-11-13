@@ -1,0 +1,68 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "rules": {
+    "selector-class-pattern": [
+      "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:__[a-z0-9]+(?:-[a-z0-9]+)*)?(?:--[a-z0-9]+(?:-[a-z0-9]+)*)?$",
+      { "message": "Use classes em kebab-case, com __ para partes e -- para variações." }
+    ],
+    "keyframes-name-pattern": [
+      "^eco(?:-[a-z0-9]+)+$",
+      { "message": "Keyframes começam com eco-." }
+    ],
+    "selector-type-no-unknown": [true, { "ignore": ["custom-elements"] }],
+    "selector-pseudo-element-no-unknown": [true, { "ignorePseudoElements": ["ng-deep"] }],
+    "media-feature-range-notation": null,
+    "declaration-property-value-disallowed-list": {
+      "transition": ["/\\ball\\b/"],
+      "transition-property": ["/\\ball\\b/"]
+    }
+  },
+  "overrides": [
+    {
+      "files": ["src/app/**/*.scss"],
+      "rules": {
+        "color-no-hex": [true, { "message": "Cor escrita direto na tela: use var(--cor-...)." }],
+        "color-named": ["never", { "message": "Cor escrita direto na tela: use var(--cor-...)." }],
+        "function-disallowed-list": [
+          ["rgb", "rgba", "hsl", "hsla", "hwb", "lab", "lch", "oklab", "oklch", "color", "color-mix"],
+          { "message": "Cor escrita direto na tela: use var(--cor-...)." }
+        ],
+        "declaration-property-unit-disallowed-list": [
+          {
+            "/^border(-[a-z]+)*-radius$/": ["px", "rem", "em", "ch", "ex", "vw", "vh", "vmin", "vmax", "pt"],
+            "/^font/": ["px", "rem", "em", "ch", "ex", "vw", "vh", "vmin", "vmax", "pt"],
+            "line-height": ["px", "rem", "em", "ch", "ex", "vw", "vh", "pt"],
+            "letter-spacing": ["px", "rem", "em", "ch", "ex", "vw", "vh", "pt"],
+            "/^transition/": ["ms", "s"]
+          },
+          { "message": "Raio, texto ou duração escrito direto na tela: use os tokens (var(--raio-...), @include texto(...), var(--duracao-...))." }
+        ],
+        "declaration-property-value-allowed-list": [
+          {
+            "/^(margin|padding|gap|row-gap|column-gap|scroll-margin|scroll-padding)/": [
+              "/^(?:(?:var\\(--(?:espaco|margem)-[a-z0-9-]+\\)|0|auto)(?:\\s+|$))+$/"
+            ],
+            "/^(inset|top|right|bottom|left)/": [
+              "/^(?:(?:var\\(--(?:espaco|margem)-[a-z0-9-]+\\)|0|auto|-?\\d+(?:\\.\\d+)?%)(?:\\s+|$))+$/"
+            ],
+            "font": ["/^var\\(--texto-/", "inherit"],
+            "font-size": ["inherit"],
+            "font-family": ["/^var\\(--fonte-/", "inherit"],
+            "font-weight": ["/^var\\(--peso-/", "inherit"],
+            "transition-property": ["none", "opacity"],
+            "transition": ["/^none$/", "/^opacity\\s[^,]*$/"]
+          },
+          { "message": "Espaço só com var(--espaco-...), var(--margem-...), 0 ou auto; texto só pelos estilos do sistema; nas telas, transição só de opacity (o movimento vem dos mixins)." }
+        ],
+        "property-disallowed-list": [
+          ["/^animation/"],
+          { "message": "Nas telas, animação só pelos mixins animar-entrada e animar-saida, que respeitam reduzir movimento." }
+        ],
+        "at-rule-disallowed-list": [
+          ["keyframes", "media", "font-face", "import"],
+          { "message": "Keyframes, media queries e fontes ficam em src/styles; nas telas, use os mixins (a-partir-de, animar-entrada, ao-passar-o-mouse)." }
+        ]
+      }
+    }
+  ]
+}

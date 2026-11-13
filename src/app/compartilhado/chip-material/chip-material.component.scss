@@ -1,0 +1,46 @@
+@use 'abstratos' as *;
+
+:host {
+  display: inline-flex;
+}
+
+.chip {
+  @include texto(corpo-14-medio);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--altura-campo);
+  padding: 0 var(--espaco-14);
+  border: var(--espessura-linha) solid var(--cor-borda-controle);
+  border-radius: var(--raio-controle);
+  background-color: var(--cor-fundo-superficie);
+  color: var(--cor-texto-principal);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+
+  &::after {
+    @include alvo-de-toque;
+  }
+}
+
+.chip--ligado {
+  border-color: var(--cor-acao-primaria);
+  background-color: var(--cor-acao-primaria);
+  color: var(--cor-texto-inverso);
+}
+
+.chip:disabled,
+.chip__caixa-nativa:disabled + .chip {
+  border-color: transparent;
+  background-color: var(--cor-fundo-rebaixado);
+  color: var(--cor-texto-terciario);
+  cursor: not-allowed;
+}
+
+.chip__caixa-nativa:focus-visible + .chip {
+  outline: var(--espessura-foco) solid var(--cor-foco);
+  outline-offset: var(--afastamento-foco);
+}

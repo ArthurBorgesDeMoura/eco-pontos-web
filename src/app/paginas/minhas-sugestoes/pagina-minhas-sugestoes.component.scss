@@ -1,0 +1,137 @@
+@use 'abstratos' as *;
+
+.minhas {
+  display: grid;
+  gap: var(--espaco-24);
+  padding-block: var(--espaco-24) var(--espaco-48);
+
+  @include a-partir-de(desktop) {
+    padding-block: var(--espaco-40) var(--espaco-64);
+  }
+}
+
+.minhas__cabecalho {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--espaco-16);
+}
+
+.minhas__texto {
+  display: grid;
+  gap: var(--espaco-4);
+}
+
+.minhas__titulo {
+  @include texto(titulo-22-celular);
+
+  @include a-partir-de(desktop) {
+    @include texto(titulo-24);
+  }
+}
+
+.minhas__subtitulo,
+.minhas__carregando {
+  @include texto(corpo-14);
+
+  color: var(--cor-texto-secundario);
+}
+
+.minhas__abas {
+  min-width: 0;
+}
+
+.minhas__tabela {
+  @include abaixo-de(tablet) {
+    display: none;
+  }
+}
+
+.minhas__celular {
+  display: grid;
+  gap: var(--espaco-12);
+
+  @include a-partir-de(tablet) {
+    display: none;
+  }
+}
+
+@mixin cartao {
+  border: var(--espessura-linha) solid var(--cor-borda-cartao);
+  border-radius: var(--raio-cartao);
+  background-color: var(--cor-fundo-superficie);
+}
+
+.minhas__cartoes {
+  display: grid;
+  gap: var(--espaco-12);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.minhas__cartao {
+  @include cartao;
+
+  display: grid;
+  gap: var(--espaco-2);
+  padding: var(--espaco-14) var(--espaco-16);
+}
+
+.minhas__cartao-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--espaco-12);
+}
+
+.minhas__nome {
+  @include texto(corpo-14-forte);
+
+  overflow-wrap: anywhere;
+}
+
+.minhas__local,
+.minhas__resumo {
+  @include texto(apoio-13);
+
+  color: var(--cor-texto-secundario);
+}
+
+.minhas__materiais {
+  @include texto(meta-12);
+
+  color: var(--cor-texto-terciario);
+}
+
+.minhas__rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-16);
+}
+
+.minhas__estado {
+  @include cartao;
+
+  display: grid;
+  justify-items: center;
+  gap: var(--espaco-20);
+  padding: var(--espaco-32) var(--espaco-20);
+  text-align: center;
+
+  @include a-partir-de(desktop) {
+    padding-block: var(--espaco-estado-vazio);
+  }
+}
+
+.minhas__estado-mensagem {
+  @include texto(corpo-14-forte);
+}
+
+.minhas__erro-do-mais {
+  @include texto(apoio-13);
+
+  color: var(--cor-status-recusado-texto);
+}

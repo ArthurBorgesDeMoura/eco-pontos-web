@@ -1,0 +1,34 @@
+<div
+  class="tela"
+  [class.tela--com-barra-inferior]="temBarraInferior"
+  [class.tela--esmaecer]="esmaecendo"
+  [attr.inert]="(dialogoAberto$ | async) ? '' : null"
+>
+  <header *ngIf="barras" class="tela__topo">
+    <eco-barra-superior
+      class="tela__barra-superior"
+      [perfil]="barras.perfil"
+      [pagina]="barras.pagina"
+      [nome]="barras.nome"
+      (sair)="sair()"
+    ></eco-barra-superior>
+    <eco-cabecalho-celular
+      class="tela__cabecalho"
+      [tipo]="barras.cabecalhoInterno ? 'interna' : 'principal'"
+      [titulo]="barras.cabecalhoInterno ?? ''"
+      [rotaVoltar]="barras.voltarPara"
+      [perfil]="barras.perfil"
+      [nome]="barras.nome"
+      (conta)="abrirConta()"
+    ></eco-cabecalho-celular>
+  </header>
+  <router-outlet></router-outlet>
+  <eco-barra-inferior
+    *ngIf="barras && temBarraInferior"
+    class="tela__barra-inferior"
+    [perfil]="barras.perfil"
+    [pagina]="barras.pagina"
+  ></eco-barra-inferior>
+</div>
+<eco-avisos></eco-avisos>
+<eco-dialogos></eco-dialogos>

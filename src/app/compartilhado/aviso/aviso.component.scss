@@ -1,0 +1,13 @@
+@use 'abstratos' as *;
+
+:host {
+  @include texto(corpo-14-medio);
+
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--altura-aviso);
+  padding: var(--espaco-12) var(--espaco-16);
+  border-radius: var(--raio-cartao);
+  background-color: var(--cor-acao-primaria);
+  color: var(--cor-texto-inverso);
+}

@@ -1,0 +1,94 @@
+@use 'abstratos' as *;
+
+.acesso {
+  display: grid;
+  justify-items: center;
+  padding-block: var(--espaco-32) var(--espaco-64);
+
+  @include a-partir-de(desktop) {
+    padding-block-start: var(--espaco-64);
+  }
+}
+
+.acesso__cartao {
+  display: grid;
+  gap: var(--espaco-24);
+  width: 100%;
+  max-width: var(--largura-formulario-acesso);
+
+  @include a-partir-de(tablet) {
+    padding: var(--espaco-32);
+    border: var(--espessura-linha) solid var(--cor-borda-cartao);
+    border-radius: var(--raio-cartao);
+    background-color: var(--cor-fundo-superficie);
+  }
+}
+
+.acesso__cabecalho {
+  display: grid;
+  gap: var(--espaco-8);
+}
+
+.acesso__titulo {
+  @include texto(titulo-22-celular);
+
+  @include a-partir-de(desktop) {
+    @include texto(titulo-24);
+  }
+}
+
+.acesso__apoio {
+  @include texto(corpo-14);
+
+  color: var(--cor-texto-secundario);
+}
+
+.acesso__formulario {
+  display: grid;
+  gap: var(--espaco-16);
+}
+
+.acesso__enviar {
+  margin-top: var(--espaco-8);
+}
+
+.acesso__erro,
+.acesso__nota {
+  @include texto(corpo-14);
+
+  padding: var(--espaco-12) var(--espaco-16);
+  border-radius: var(--raio-controle);
+}
+
+.acesso__erro {
+  background-color: var(--cor-status-recusado-fundo);
+  color: var(--cor-status-recusado-texto);
+}
+
+.acesso__nota {
+  background-color: var(--cor-marca-verde-fundo);
+  color: var(--cor-marca-verde-texto);
+}
+
+.acesso__nota--aviso {
+  background-color: var(--cor-status-pendente-fundo);
+  color: var(--cor-status-pendente-texto);
+}
+
+.acesso__troca {
+  @include texto(corpo-14);
+
+  color: var(--cor-texto-secundario);
+
+  a {
+    @include texto(corpo-14-forte);
+
+    position: relative;
+    color: var(--cor-texto-principal);
+    text-underline-offset: 0.2em;
+
+    &::after {
+      @include alvo-de-toque;
+    }
+  }
+}

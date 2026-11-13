@@ -1,0 +1,31 @@
+@use 'abstratos' as *;
+
+.situacao {
+  display: grid;
+  justify-items: start;
+  gap: var(--espaco-16);
+  padding-block: var(--espaco-32) var(--espaco-64);
+
+  @include a-partir-de(desktop) {
+    padding-block-start: var(--espaco-48);
+  }
+}
+
+.situacao__titulo {
+  @include texto(titulo-22-celular);
+
+  @include a-partir-de(desktop) {
+    @include texto(titulo-24);
+  }
+}
+
+.situacao__texto {
+  @include texto(corpo-14);
+
+  max-width: 65ch;
+  color: var(--cor-texto-secundario);
+}
+
+.situacao__acao {
+  margin-top: var(--espaco-8);
+}

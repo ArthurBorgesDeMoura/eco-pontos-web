@@ -1,0 +1,87 @@
+@use '../abstratos/quebras' as *;
+
+:root {
+  --duracao-hover: 150ms;
+  --duracao-pressionar: 160ms;
+  --duracao-dialogo: 200ms;
+  --duracao-dialogo-saida: calc(var(--duracao-dialogo) * 0.7);
+  --duracao-empurrar: 250ms;
+  --duracao-empurrar-saida: calc(var(--duracao-empurrar) * 0.7);
+  --duracao-aviso: 200ms;
+  --duracao-aviso-saida: calc(var(--duracao-aviso) * 0.7);
+  --duracao-esmaecer: 150ms;
+  --duracao-troca-de-tela: 160ms;
+  --escala-pressionar: 0.97;
+  --escala-entrada-dialogo: 0.95;
+  --deslocamento-empurrar: 100%;
+  --deslocamento-aviso: 100%;
+  --curva-entrada: cubic-bezier(0.23, 1, 0.32, 1);
+  --curva-movimento: cubic-bezier(0.77, 0, 0.175, 1);
+  --curva-empurrar: cubic-bezier(0.32, 0.72, 0, 1);
+  --curva-hover: ease;
+
+  @include a-partir-de(desktop) {
+    --deslocamento-aviso: -100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --escala-pressionar: 1;
+    --escala-entrada-dialogo: 1;
+    --deslocamento-empurrar: 0;
+    --deslocamento-aviso: 0;
+  }
+}
+
+@keyframes eco-esmaecer-entrar {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes eco-esmaecer-sair {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes eco-dialogo-entrar {
+  from {
+    opacity: 0;
+    transform: scale(var(--escala-entrada-dialogo));
+  }
+}
+
+@keyframes eco-dialogo-sair {
+  to {
+    opacity: 0;
+    transform: scale(var(--escala-entrada-dialogo));
+  }
+}
+
+@keyframes eco-empurrar-entrar {
+  from {
+    transform: translateX(var(--deslocamento-empurrar));
+  }
+}
+
+@keyframes eco-empurrar-sair {
+  to {
+    transform: translateX(var(--deslocamento-empurrar));
+  }
+}
+
+@keyframes eco-aviso-entrar {
+  from {
+    opacity: 0;
+    transform: translateY(var(--deslocamento-aviso));
+  }
+}
+
+@keyframes eco-aviso-sair {
+  to {
+    opacity: 0;
+    transform: translateY(var(--deslocamento-aviso));
+  }
+}

@@ -1,0 +1,93 @@
+<p class="so-leitor-de-tela" role="status">{{ anuncio }}</p>
+<p class="so-leitor-de-tela" role="alert">{{ alerta }}</p>
+
+<p *ngIf="carregando" class="painel__carregando">{{ mensagem.carregando }}</p>
+
+<div *ngIf="!carregando && erro" class="painel__estado painel__estado--erro">
+  <p class="painel__estado-mensagem">{{ erro }}</p>
+  <button
+    eco-botao
+    type="button"
+    tipo="secundario"
+    [attr.aria-disabled]="tentando ? 'true' : null"
+    (click)="tentarDeNovo()"
+  >
+    Tentar de novo
+  </button>
+</div>
+
+<div *ngIf="!carregando && !erro && itens.length === 0" class="painel__estado">
+  <p class="painel__estado-mensagem" tabindex="-1">{{ mensagem.vazio }}</p>
+</div>
+
+<ng-container *ngIf="!carregando && !erro && itens.length > 0">
+  <eco-tabela
+    class="painel__tabela"
+    legenda="Categorias de material"
+    [compacta]="true"
+    [itens]="itens"
+    [total]="total"
+    [textoDoResumo]="resumo"
+    [carregando]="carregandoMais"
+    [rastrearPor]="porId"
+    (mostrarMais)="mostrarMais()"
+  >
+    <ng-template ecoColuna="Categoria" largura="categoria" let-categoria>
+      <span class="categorias__nome">{{ categoria.nome }}</span>
+    </ng-template>
+    <ng-template ecoColuna="Descrição" let-categoria>
+      <span [class.categorias__sem-descricao]="!categoria.descricao">{{ descricao(categoria) }}</span>
+    </ng-template>
+    <ng-template ecoColuna="Pontos" largura="numero" let-categoria>
+      <span class="categorias__pontos">{{ categoria.pontos }}</span>
+    </ng-template>
+    <ng-template ecoColuna="Ações" largura="editar" let-categoria>
+      <ng-container *ngTemplateOutlet="editar; context: { $implicit: categoria, tamanho: 'p', tipo: 'texto' }"></ng-container>
+    </ng-template>
+  </eco-tabela>
+
+  <div class="painel__compacto">
+    <ul class="painel__cartoes" aria-label="Categorias de material">
+      <li *ngFor="let categoria of itens; trackBy: porId" class="painel__cartao">
+        <div class="painel__cartao-dados">
+          <span class="painel__nome">{{ categoria.nome }}</span>
+          <span class="painel__local" [class.categorias__sem-descricao]="!categoria.descricao">{{ descricao(categoria) }}</span>
+          <span class="painel__materiais">{{ mensagem.pontos(categoria.pontos) }}</span>
+        </div>
+        <div class="painel__cartao-acoes painel__cartao-acoes--uma">
+          <ng-container *ngTemplateOutlet="editar; context: { $implicit: categoria, tamanho: 'g', tipo: 'secundario' }"></ng-container>
+        </div>
+      </li>
+    </ul>
+    <div class="painel__rodape">
+      <p class="painel__resumo" tabindex="-1">{{ resumo }}</p>
+      <button
+        *ngIf="haMais"
+        eco-botao
+        type="button"
+        tipo="secundario"
+        tamanho="g"
+        [attr.aria-disabled]="carregandoMais ? 'true' : null"
+        (click)="mostrarMais()"
+      >
+        Mostrar mais
+      </button>
+    </div>
+  </div>
+
+  <p *ngIf="erroDoMais" class="painel__erro-do-mais">{{ erroDoMais }}</p>
+</ng-container>
+
+<ng-template #editar let-categoria let-tamanho="tamanho" let-tipo="tipo">
+  <a
+    eco-botao
+    [tipo]="tipo"
+    [tamanho]="tamanho"
+    [routerLink]="rotaDaCategoria(categoria.idCategoria)"
+    [attr.data-categoria]="categoria.idCategoria"
+    data-acao="editar"
+    (click)="lembrar(categoria)"
+  >
+    Editar<span class="so-leitor-de-tela"> {{ categoria.nome }}</span>
+  </a>
+</ng-template>

@@ -1,0 +1,133 @@
+@use 'abstratos' as *;
+
+.painel__carregando {
+  @include texto(corpo-14);
+
+  color: var(--cor-texto-secundario);
+}
+
+.painel__tabela {
+  @include abaixo-de(desktop) {
+    display: none;
+  }
+}
+
+.painel__compacto {
+  display: grid;
+  gap: var(--espaco-12);
+
+  @include a-partir-de(desktop) {
+    display: none;
+  }
+}
+
+@mixin cartao {
+  border: var(--espessura-linha) solid var(--cor-borda-cartao);
+  border-radius: var(--raio-cartao);
+  background-color: var(--cor-fundo-superficie);
+}
+
+.painel__cartoes {
+  display: grid;
+  gap: var(--espaco-12);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.painel__cartao {
+  @include cartao;
+
+  display: grid;
+  gap: var(--espaco-16);
+  padding: var(--espaco-16);
+
+  @include a-partir-de(tablet) {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--espaco-24);
+    padding: var(--espaco-16) var(--espaco-20);
+  }
+}
+
+.painel__cartao--saindo {
+  @include animar-saida(eco-esmaecer-sair, var(--duracao-troca-de-tela));
+}
+
+.painel__cartao-dados {
+  display: grid;
+  gap: var(--espaco-2);
+  min-width: 0;
+}
+
+.painel__cartao-acoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espaco-8);
+
+  @include a-partir-de(tablet) {
+    display: flex;
+  }
+}
+
+.painel__cartao-acoes--uma {
+  grid-template-columns: 1fr;
+}
+
+.painel__nome {
+  @include texto(corpo-14-forte);
+
+  overflow-wrap: anywhere;
+}
+
+.painel__local,
+.painel__resumo {
+  @include texto(apoio-13);
+
+  color: var(--cor-texto-secundario);
+  overflow-wrap: anywhere;
+}
+
+.painel__detalhe,
+.painel__materiais,
+.painel__sugerido {
+  @include texto(apoio-13);
+
+  color: var(--cor-texto-terciario);
+  overflow-wrap: anywhere;
+}
+
+.painel__materiais {
+  color: var(--cor-texto-secundario);
+}
+
+.painel__rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-16);
+}
+
+.painel__estado {
+  @include cartao;
+
+  display: grid;
+  justify-items: center;
+  gap: var(--espaco-20);
+  padding: var(--espaco-32) var(--espaco-20);
+  text-align: center;
+
+  @include a-partir-de(desktop) {
+    padding-block: var(--espaco-estado-vazio);
+  }
+}
+
+.painel__estado-mensagem {
+  @include texto(corpo-14-forte);
+}
+
+.painel__erro-do-mais {
+  @include texto(apoio-13);
+
+  color: var(--cor-status-recusado-texto);
+}

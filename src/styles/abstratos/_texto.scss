@@ -1,0 +1,27 @@
+@use 'sass:map';
+
+$estilos-texto: (
+  numero-28: (peso: 600, tamanho: 28px, altura: 32px, espacamento: 0),
+  titulo-24: (peso: 600, tamanho: 24px, altura: 32px, espacamento: 0),
+  titulo-22-celular: (peso: 600, tamanho: 22px, altura: 28px, espacamento: 0),
+  marca-18: (peso: 600, tamanho: 18px, altura: 24px, espacamento: 0),
+  secao-16: (peso: 600, tamanho: 16px, altura: 24px, espacamento: 0),
+  corpo-14: (peso: 400, tamanho: 14px, altura: 20px, espacamento: 0),
+  corpo-14-forte: (peso: 600, tamanho: 14px, altura: 20px, espacamento: 0),
+  corpo-14-medio: (peso: 500, tamanho: 14px, altura: 20px, espacamento: 0),
+  apoio-13: (peso: 400, tamanho: 13px, altura: 18px, espacamento: 0),
+  apoio-13-forte: (peso: 600, tamanho: 13px, altura: 18px, espacamento: 0),
+  apoio-13-medio: (peso: 500, tamanho: 13px, altura: 18px, espacamento: 0),
+  meta-12: (peso: 400, tamanho: 12px, altura: 16px, espacamento: 0),
+  meta-12-medio: (peso: 500, tamanho: 12px, altura: 16px, espacamento: 0),
+  rotulo-11: (peso: 500, tamanho: 11px, altura: 14px, espacamento: 0),
+);
+
+@mixin texto($nome) {
+  @if not map.has-key($estilos-texto, $nome) {
+    @error 'Estilo de texto desconhecido: #{$nome}.';
+  }
+
+  font: var(--texto-#{$nome});
+  letter-spacing: var(--texto-#{$nome}-espacamento);
+}

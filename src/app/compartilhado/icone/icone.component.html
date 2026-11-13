@@ -1,0 +1,13 @@
+<svg
+  class="icone"
+  [class.icone--14]="tamanho === 14"
+  [class.icone--16]="tamanho === 16"
+  [class.icone--20]="tamanho === 20"
+  [class.icone--22]="tamanho === 22"
+  [attr.role]="rotulo ? 'img' : null"
+  [attr.aria-label]="rotulo || null"
+  [attr.aria-hidden]="rotulo ? null : 'true'"
+  focusable="false"
+>
+  <use [attr.href]="endereco"></use>
+</svg>

@@ -1,0 +1,32 @@
+<div class="abas__lista" role="tablist" [attr.aria-label]="rotulo || null">
+  <button
+    *ngFor="let aba of abas; let i = index; trackBy: porValor"
+    #botaoDaAba
+    type="button"
+    role="tab"
+    class="abas__aba"
+    [class.abas__aba--ativa]="i === indiceSelecionado"
+    [id]="id + '-aba-' + i"
+    [attr.aria-selected]="i === indiceSelecionado"
+    [attr.aria-controls]="id + '-painel'"
+    [attr.tabindex]="i === indiceSelecionado ? 0 : -1"
+    (click)="escolher(i)"
+    (keydown)="aoTeclar($event, i)"
+  >
+    {{ aba.rotulo
+    }}<ng-container *ngIf="aba.contagem !== undefined && aba.contagem !== null"
+      ><span class="so-leitor-de-tela"> ({{ aba.contagem }})</span
+      ><span class="abas__contagem" aria-hidden="true">{{ aba.contagem }}</span></ng-container
+    >
+  </button>
+</div>
+
+<div
+  class="abas__painel"
+  role="tabpanel"
+  tabindex="0"
+  [id]="id + '-painel'"
+  [attr.aria-labelledby]="id + '-aba-' + indiceSelecionado"
+>
+  <ng-content></ng-content>
+</div>

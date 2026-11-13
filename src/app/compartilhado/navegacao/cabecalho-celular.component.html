@@ -1,0 +1,15 @@
+<ng-container *ngIf="tipo === 'principal'; else interna">
+  <a class="cabecalho__marca" [routerLink]="rota.pontos"><eco-marca [mostrarCidade]="false"></eco-marca></a>
+  <span class="cabecalho__espaco"></span>
+  <a *ngIf="perfil === 'visitante'" eco-botao tipo="texto" tamanho="g" [routerLink]="rota.entrar">Entrar</a>
+  <button *ngIf="logado" type="button" class="cabecalho__botao" aria-label="Conta" (click)="conta.emit()">
+    <eco-avatar [nome]="nome"></eco-avatar>
+  </button>
+</ng-container>
+
+<ng-template #interna>
+  <button type="button" class="cabecalho__botao" aria-label="Voltar" (click)="aoVoltar()">
+    <eco-icone nome="seta-esquerda" [tamanho]="24"></eco-icone>
+  </button>
+  <span class="cabecalho__titulo">{{ titulo }}</span>
+</ng-template>

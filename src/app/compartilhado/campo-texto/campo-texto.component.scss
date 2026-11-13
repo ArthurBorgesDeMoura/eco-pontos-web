@@ -1,0 +1,52 @@
+@use 'abstratos' as *;
+
+:host {
+  display: grid;
+  gap: var(--espaco-6);
+}
+
+.campo__rotulo {
+  @include texto(corpo-14-medio);
+
+  color: var(--cor-texto-principal);
+}
+
+.campo__caixa {
+  @include caixa-de-campo;
+}
+
+.campo__entrada {
+  @include texto(corpo-14);
+
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  color: var(--cor-texto-principal);
+  outline: none;
+
+  &::placeholder {
+    color: var(--cor-texto-terciario);
+    opacity: 1;
+  }
+
+  &:disabled {
+    color: var(--cor-texto-terciario);
+    cursor: not-allowed;
+  }
+}
+
+.campo__erro,
+.campo__ajuda {
+  @include texto(meta-12);
+}
+
+.campo__erro {
+  color: var(--cor-status-perigo);
+}
+
+.campo__ajuda {
+  color: var(--cor-texto-secundario);
+}

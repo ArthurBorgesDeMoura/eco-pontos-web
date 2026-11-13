@@ -1,0 +1,30 @@
+:root {
+  --cor-fundo-base: #F3F4EE;
+  --cor-fundo-superficie: #FFF;
+  --cor-fundo-rebaixado: #ECEEE6;
+  --cor-fundo-ativo: #E3E7DA;
+  --cor-borda-cartao: #E0E3D8;
+  --cor-borda-linha: #EBEDE4;
+  --cor-borda-controle: #808A7C;
+  --cor-texto-principal: #161B17;
+  --cor-texto-secundario: #3F4941;
+  --cor-texto-terciario: #5E6960;
+  --cor-texto-inverso: #FFF;
+  --cor-acao-primaria: #161B17;
+  --cor-acao-primaria-hover: #2B342D;
+  --cor-acao-primaria-pressionada: #3C473F;
+  --cor-marca-verde: #17724A;
+  --cor-marca-verde-fundo: #DDF0E4;
+  --cor-marca-verde-texto: #0B3B22;
+  --cor-status-pendente-fundo: #FFF6DB;
+  --cor-status-pendente-texto: #7A4505;
+  --cor-status-pendente-borda: #F1DB9B;
+  --cor-status-recusado-fundo: #FDE9E6;
+  --cor-status-recusado-texto: #8A1D1D;
+  --cor-status-perigo: #B42318;
+  --sombra-foco-campo: 0 0 0 3px rgb(23 114 74 / 30%);
+  --cor-foco: var(--cor-marca-verde);
+  --cor-sobreposicao: rgb(22 27 23 / 40%);
+  --cor-status-perigo-hover: color-mix(in srgb, var(--cor-status-perigo) 85%, var(--cor-texto-principal));
+  --cor-status-perigo-pressionada: color-mix(in srgb, var(--cor-status-perigo) 72%, var(--cor-texto-principal));
+}

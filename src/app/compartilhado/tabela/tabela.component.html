@@ -1,0 +1,48 @@
+<div class="tabela__rolagem">
+  <table class="tabela__tabela">
+    <caption *ngIf="legenda" class="so-leitor-de-tela">{{ legenda }}</caption>
+    <thead>
+      <tr>
+        <th
+          *ngFor="let coluna of colunas"
+          scope="col"
+          class="tabela__titulo"
+          [ngClass]="'tabela__coluna--' + coluna.largura"
+        >
+          {{ coluna.ecoColuna }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let item of itens; let i = index; trackBy: rastrearPor"
+        class="tabela__linha"
+        [class.tabela__linha--saindo]="itensSaindo.includes(item)"
+      >
+        <td *ngFor="let coluna of colunas" class="tabela__celula" [ngClass]="'tabela__coluna--' + coluna.largura">
+          <div class="tabela__conteudo">
+            <ng-container *ngTemplateOutlet="coluna.modelo; context: { $implicit: item, indice: i }"></ng-container>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="itens.length === 0 && mensagemVazia" class="tabela__linha">
+        <td class="tabela__celula tabela__celula--vazia" [attr.colspan]="colunas.length">{{ mensagemVazia }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="total !== null" class="tabela__rodape">
+  <p #resumoDaLista class="tabela__resumo" tabindex="-1">{{ resumo }}</p>
+  <button
+    *ngIf="haMais"
+    eco-botao
+    type="button"
+    tipo="secundario"
+    tamanho="p"
+    [attr.aria-disabled]="carregando ? 'true' : null"
+    (click)="pedirMais()"
+  >
+    Mostrar mais
+  </button>
+</div>

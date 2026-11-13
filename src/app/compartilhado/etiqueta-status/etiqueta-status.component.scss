@@ -1,0 +1,30 @@
+@use 'abstratos' as *;
+
+:host {
+  @include texto(meta-12-medio);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--altura-etiqueta);
+  padding: 0 var(--espaco-8);
+  border: var(--espessura-linha) solid transparent;
+  border-radius: var(--raio-tag);
+  white-space: nowrap;
+}
+
+:host(.etiqueta--pendente) {
+  border-color: var(--cor-status-pendente-borda);
+  background-color: var(--cor-status-pendente-fundo);
+  color: var(--cor-status-pendente-texto);
+}
+
+:host(.etiqueta--aprovado) {
+  background-color: var(--cor-marca-verde-fundo);
+  color: var(--cor-marca-verde-texto);
+}
+
+:host(.etiqueta--recusado) {
+  background-color: var(--cor-status-recusado-fundo);
+  color: var(--cor-status-recusado-texto);
+}

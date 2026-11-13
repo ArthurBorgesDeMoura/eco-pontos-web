@@ -1,0 +1,10 @@
+<nav class="barra-inferior" aria-label="Principal">
+  <a
+    *ngFor="let destino of destinos"
+    eco-item-barra-inferior
+    [routerLink]="destino.rota"
+    [icone]="destino.icone"
+    [ativo]="destino.pagina === pagina"
+    >{{ destino.rotuloCurto }}</a
+  >
+</nav>

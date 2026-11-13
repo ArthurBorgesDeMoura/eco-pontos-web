@@ -1,0 +1,50 @@
+@use 'abstratos' as *;
+
+:host {
+  display: block;
+}
+
+.formulario__dupla {
+  display: grid;
+  gap: var(--espaco-20);
+
+  @include a-partir-de(tablet) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--espaco-16);
+  }
+}
+
+.formulario__materiais {
+  display: grid;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.formulario__rotulo {
+  @include texto(corpo-14-medio);
+
+  padding: 0;
+}
+
+.formulario__ajuda {
+  @include texto(apoio-13);
+
+  margin-top: var(--espaco-4);
+  color: var(--cor-texto-secundario);
+}
+
+.formulario__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-8);
+  margin-top: var(--espaco-4);
+}
+
+.formulario__erro {
+  @include texto(meta-12);
+
+  margin-top: var(--espaco-6);
+  color: var(--cor-status-perigo);
+}

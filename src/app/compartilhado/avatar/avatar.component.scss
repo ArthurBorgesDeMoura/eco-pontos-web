@@ -1,0 +1,16 @@
+@use 'abstratos' as *;
+
+:host {
+  @include texto(meta-12-medio);
+
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--altura-pilula);
+  height: var(--altura-pilula);
+  border-radius: var(--raio-pilula);
+  background-color: var(--cor-marca-verde-fundo);
+  color: var(--cor-marca-verde-texto);
+  white-space: nowrap;
+}

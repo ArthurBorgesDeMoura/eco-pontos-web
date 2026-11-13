@@ -1,0 +1,107 @@
+{
+  "origem": "Metadados da página Sistema do Figma (cópia v4fkTgdYSOdBnycgslVDqG), lidos em 23/10/2026.",
+  "componentes": {
+    "Botão": [
+      "Tipo=Primário, Estado=Padrão, Tamanho=P",
+      "Tipo=Primário, Estado=Hover, Tamanho=P",
+      "Tipo=Primário, Estado=Pressionado, Tamanho=P",
+      "Tipo=Primário, Estado=Padrão, Tamanho=M",
+      "Tipo=Primário, Estado=Hover, Tamanho=M",
+      "Tipo=Primário, Estado=Pressionado, Tamanho=M",
+      "Tipo=Primário, Estado=Padrão, Tamanho=G",
+      "Tipo=Primário, Estado=Hover, Tamanho=G",
+      "Tipo=Primário, Estado=Pressionado, Tamanho=G",
+      "Tipo=Secundário, Estado=Padrão, Tamanho=P",
+      "Tipo=Secundário, Estado=Hover, Tamanho=P",
+      "Tipo=Secundário, Estado=Pressionado, Tamanho=P",
+      "Tipo=Secundário, Estado=Padrão, Tamanho=M",
+      "Tipo=Secundário, Estado=Hover, Tamanho=M",
+      "Tipo=Secundário, Estado=Pressionado, Tamanho=M",
+      "Tipo=Secundário, Estado=Padrão, Tamanho=G",
+      "Tipo=Secundário, Estado=Hover, Tamanho=G",
+      "Tipo=Secundário, Estado=Pressionado, Tamanho=G",
+      "Tipo=Texto, Estado=Padrão, Tamanho=P",
+      "Tipo=Texto, Estado=Hover, Tamanho=P",
+      "Tipo=Texto, Estado=Pressionado, Tamanho=P",
+      "Tipo=Texto, Estado=Padrão, Tamanho=M",
+      "Tipo=Texto, Estado=Hover, Tamanho=M",
+      "Tipo=Texto, Estado=Pressionado, Tamanho=M",
+      "Tipo=Texto, Estado=Padrão, Tamanho=G",
+      "Tipo=Texto, Estado=Hover, Tamanho=G",
+      "Tipo=Texto, Estado=Pressionado, Tamanho=G"
+    ],
+    "Etiqueta de status": [
+      "Status=Pendente",
+      "Status=Aprovado",
+      "Status=Recusado"
+    ],
+    "Chip de material": [
+      "Estado=Desligado",
+      "Estado=Ligado"
+    ],
+    "Chip de material (formulário)": [
+      "Estado=Desligado",
+      "Estado=Ligado"
+    ],
+    "Campo de texto": [
+      "Estado=Vazio",
+      "Estado=Preenchido",
+      "Estado=Foco",
+      "Estado=Erro"
+    ],
+    "Item de filtro": [
+      "Estado=Padrão",
+      "Estado=Hover",
+      "Estado=Selecionado"
+    ],
+    "Link de navegação": [
+      "Estado=Padrão",
+      "Estado=Hover",
+      "Estado=Ativo"
+    ],
+    "Aba": [
+      "Estado=Padrão",
+      "Estado=Ativa"
+    ],
+    "Item da barra inferior": [
+      "Estado=Padrão",
+      "Estado=Ativo"
+    ],
+    "Linha de ponto (desktop)": [
+      "Estado=Padrão",
+      "Estado=Hover"
+    ],
+    "Cartão de ponto (celular)": [
+      "Estado=Padrão",
+      "Estado=Pressionado"
+    ],
+    "Barra superior (desktop)": [
+      "Perfil=Acesso, Página=Nenhuma",
+      "Perfil=Visitante, Página=Pontos",
+      "Perfil=Usuário, Página=Pontos",
+      "Perfil=Usuário, Página=Sugerir",
+      "Perfil=Usuário, Página=Minhas",
+      "Perfil=Administrador, Página=Pontos",
+      "Perfil=Administrador, Página=Painel"
+    ],
+    "Cabeçalho (celular)": [
+      "Tipo=Principal, Perfil=Visitante",
+      "Tipo=Principal, Perfil=Usuário",
+      "Tipo=Principal, Perfil=Administrador",
+      "Tipo=Interna"
+    ],
+    "Barra inferior (celular)": [
+      "Perfil=Usuário, Ativa=Pontos",
+      "Perfil=Usuário, Ativa=Sugerir",
+      "Perfil=Usuário, Ativa=Minhas",
+      "Perfil=Administrador, Ativa=Pontos",
+      "Perfil=Administrador, Ativa=Painel"
+    ],
+    "Avatar": [
+      "Avatar"
+    ],
+    "Aviso": [
+      "Aviso"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+<main class="conteudo pagina-formulario">
+  <header class="pagina-formulario__cabecalho">
+    <h1 class="pagina-formulario__titulo">Sugerir novo ponto</h1>
+    <p class="pagina-formulario__subtitulo">A sugestão fica pendente até a análise e só aparece na busca depois de aprovada.</p>
+  </header>
+
+  <eco-formulario-ponto
+    [limparAoEnviar]="true"
+    [enviarCom]="sugerir"
+    (enviado)="irParaMinhasSugestoes()"
+    (cancelado)="cancelar()"
+  ></eco-formulario-ponto>
+</main>

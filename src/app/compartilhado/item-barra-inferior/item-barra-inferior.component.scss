@@ -1,0 +1,37 @@
+@use 'abstratos' as *;
+
+:host {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-4);
+  width: var(--largura-item-barra-inferior);
+  height: var(--altura-item-barra-inferior);
+  padding: var(--espaco-6) 0;
+  color: var(--cor-texto-secundario);
+  text-decoration: none;
+}
+
+.item__pilula {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--largura-pilula);
+  height: var(--altura-pilula);
+  border-radius: var(--raio-pilula);
+}
+
+.item__rotulo {
+  @include texto(rotulo-11);
+
+  white-space: nowrap;
+}
+
+:host(.item--ativo) {
+  color: var(--cor-texto-principal);
+
+  .item__pilula {
+    background-color: var(--cor-fundo-ativo);
+  }
+}

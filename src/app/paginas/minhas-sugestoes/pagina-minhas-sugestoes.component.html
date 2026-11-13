@@ -1,0 +1,89 @@
+<main class="conteudo minhas">
+  <header class="minhas__cabecalho">
+    <div class="minhas__texto">
+      <h1 class="minhas__titulo">Minhas sugestões</h1>
+      <p class="minhas__subtitulo">Acompanhe a análise dos pontos que você sugeriu.</p>
+    </div>
+    <a eco-botao class="minhas__sugerir" [routerLink]="rotaSugerir">Sugerir novo ponto</a>
+  </header>
+
+  <p class="so-leitor-de-tela" role="status">{{ anuncio }}</p>
+  <p class="so-leitor-de-tela" role="alert">{{ alerta }}</p>
+
+  <eco-abas class="minhas__abas" rotulo="Situação das sugestões" [abas]="abas" [selecionada]="aba" (selecionadaChange)="escolherAba($event)">
+    <p *ngIf="carregando" class="minhas__carregando">Carregando suas sugestões…</p>
+
+    <div *ngIf="!carregando && erro" class="minhas__estado minhas__estado--erro">
+      <p class="minhas__estado-mensagem">{{ erro }}</p>
+      <button
+        eco-botao
+        type="button"
+        tipo="secundario"
+        [attr.aria-disabled]="tentando ? 'true' : null"
+        (click)="tentarDeNovo()"
+      >
+        Tentar de novo
+      </button>
+    </div>
+
+    <div *ngIf="!carregando && !erro && total === 0" class="minhas__estado">
+      <p class="minhas__estado-mensagem">{{ definicao.vazio }}</p>
+      <a *ngIf="aba === 'todas'" eco-botao [routerLink]="rotaSugerir">Sugerir um ponto</a>
+    </div>
+
+    <ng-container *ngIf="!carregando && !erro && total !== null && total > 0">
+      <eco-tabela
+        class="minhas__tabela"
+        legenda="Minhas sugestões"
+        itemNoSingular="sugestão"
+        itemNoPlural="sugestões"
+        [itens]="itens"
+        [total]="total"
+        [carregando]="carregandoMais"
+        [rastrearPor]="porId"
+        (mostrarMais)="mostrarMais()"
+      >
+        <ng-template ecoColuna="Ponto" let-sugestao>
+          <eco-celula-ponto
+            [nome]="sugestao.nome"
+            [bairro]="sugestao.bairro.nome"
+            [endereco]="sugestao.endereco"
+          ></eco-celula-ponto>
+        </ng-template>
+        <ng-template ecoColuna="Materiais" largura="larga" let-sugestao>{{ materiais(sugestao) }}</ng-template>
+        <ng-template ecoColuna="Situação" largura="situacao" let-sugestao>
+          <eco-etiqueta-status [status]="sugestao.status" [rotulo]="rotuloDe(sugestao.status)"></eco-etiqueta-status>
+        </ng-template>
+      </eco-tabela>
+
+      <div class="minhas__celular">
+        <ul class="minhas__cartoes" aria-label="Minhas sugestões">
+          <li *ngFor="let sugestao of itens; trackBy: porId" class="minhas__cartao">
+            <div class="minhas__cartao-topo">
+              <span class="minhas__nome">{{ sugestao.nome }}</span>
+              <eco-etiqueta-status [status]="sugestao.status" [rotulo]="rotuloDe(sugestao.status)"></eco-etiqueta-status>
+            </div>
+            <span class="minhas__local">{{ sugestao.bairro.nome }} · {{ sugestao.endereco }}</span>
+            <span class="minhas__materiais">{{ materiais(sugestao) }}</span>
+          </li>
+        </ul>
+        <div class="minhas__rodape">
+          <p class="minhas__resumo" tabindex="-1">{{ resumo }}</p>
+          <button
+            *ngIf="haMais"
+            eco-botao
+            type="button"
+            tipo="secundario"
+            tamanho="p"
+            [attr.aria-disabled]="carregandoMais ? 'true' : null"
+            (click)="mostrarMais()"
+          >
+            Mostrar mais
+          </button>
+        </div>
+      </div>
+
+      <p *ngIf="erroDoMais" class="minhas__erro-do-mais">{{ erroDoMais }}</p>
+    </ng-container>
+  </eco-abas>
+</main>

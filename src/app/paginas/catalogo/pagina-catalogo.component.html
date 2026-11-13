@@ -1,0 +1,594 @@
+<main class="conteudo pagina">
+  <header class="cabecalho">
+    <h1 class="cabecalho__titulo">Catálogo</h1>
+    <p class="cabecalho__descricao">
+      Componentes do FE-02 em todos os estados do protótipo, cada um com o nome da variante do Figma, para conferir lado
+      a lado. Os tokens estão na <a routerLink="/sistema">página Sistema</a>.
+    </p>
+    <p class="nota">
+      As amostras com estado fixo não recebem clique nem foco: para usar com mouse, toque ou teclado, use a parte "Ao
+      vivo" de cada seção. "Fora do Figma" marca os estados que o protótipo não desenha. "Provisório" marca o que ainda
+      não foi lido no Figma.
+    </p>
+  </header>
+
+  <section class="secao" data-componente="Botão" aria-labelledby="catalogo-botao">
+    <h2 class="secao__titulo" id="catalogo-botao">Botão</h2>
+    <div *ngFor="let linha of botoes" class="variantes variantes--botoes">
+      <figure *ngFor="let variante of linha" class="variante" [attr.data-variante]="variante.nome">
+        <div class="variante__amostra" inert>
+          <button
+            eco-botao
+            type="button"
+            [tipo]="variante.tipo"
+            [tamanho]="variante.tamanho"
+            [estadoForcado]="variante.estado"
+          >
+            Botão
+          </button>
+        </div>
+        <figcaption class="variante__nome">{{ variante.nome }}</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="grupo__titulo">Fora do Figma</h3>
+    <div class="variantes variantes--botoes">
+      <figure
+        *ngFor="let variante of botoesForaDoFigma"
+        class="variante variante--extra"
+        [attr.data-variante]="variante.nome"
+      >
+        <div class="variante__amostra" inert>
+          <button
+            eco-botao
+            type="button"
+            [tipo]="variante.tipo"
+            [tamanho]="variante.tamanho"
+            [estadoForcado]="variante.estado"
+          >
+            {{ variante.tipo === 'exclusao' ? 'Excluir ponto' : 'Botão' }}
+          </button>
+        </div>
+        <figcaption class="variante__nome">{{ variante.nome }}</figcaption>
+      </figure>
+      <figure
+        *ngFor="let tipo of tiposParaDesabilitar"
+        class="variante variante--extra"
+        [attr.data-variante]="'Tipo=' + tipo[1] + ', Estado=Desabilitado, Tamanho=M'"
+      >
+        <div class="variante__amostra" inert>
+          <button eco-botao type="button" [tipo]="tipo[0]" [disabled]="true">Botão</button>
+        </div>
+        <figcaption class="variante__nome">Tipo={{ tipo[1] }}, Estado=Desabilitado, Tamanho=M</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="grupo__titulo">Ao vivo</h3>
+    <div class="ao-vivo ao-vivo--fila" data-ao-vivo="Botão">
+      <button eco-botao type="button" (click)="mostrarAviso()">Entrar</button>
+      <a
+        eco-botao
+        tipo="secundario"
+        tamanho="p"
+        [iconeExterno]="true"
+        href="https://www.google.com/maps/search/?api=1&query=Uberl%C3%A2ndia%20-%20MG"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Abrir no mapa<span class="so-leitor-de-tela"> (abre em outra aba)</span></a
+      >
+      <button eco-botao type="button" tipo="texto">Cancelar</button>
+      <button eco-botao type="button" tipo="exclusao" (click)="excluir(pontos[1])">Excluir ponto</button>
+      <button eco-botao type="button" [disabled]="true">Desabilitado</button>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Etiqueta de status" aria-labelledby="catalogo-etiqueta">
+    <h2 class="secao__titulo" id="catalogo-etiqueta">Etiqueta de status</h2>
+    <div class="variantes">
+      <figure *ngFor="let item of status" class="variante" [attr.data-variante]="'Status=' + item[1]">
+        <div class="variante__amostra"><eco-etiqueta-status [status]="item[0]"></eco-etiqueta-status></div>
+        <figcaption class="variante__nome">Status={{ item[1] }}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Chip de material" aria-labelledby="catalogo-chip">
+    <h2 class="secao__titulo" id="catalogo-chip">Chip de material</h2>
+    <p class="nota">No filtro, é um botão que liga e desliga (aria-pressed).</p>
+    <div class="variantes">
+      <figure class="variante" data-variante="Estado=Desligado">
+        <div class="variante__amostra" inert><eco-chip-material rotulo="Material"></eco-chip-material></div>
+        <figcaption class="variante__nome">Estado=Desligado</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Estado=Ligado">
+        <div class="variante__amostra" inert>
+          <eco-chip-material rotulo="Material" [ligado]="true"></eco-chip-material>
+        </div>
+        <figcaption class="variante__nome">Estado=Ligado</figcaption>
+      </figure>
+    </div>
+    <h3 class="grupo__titulo">Ao vivo</h3>
+    <div class="ao-vivo ao-vivo--fila" role="group" aria-label="Materiais" data-ao-vivo="Chip de material">
+      <eco-chip-material
+        *ngFor="let item of materiais"
+        [rotulo]="item.nome"
+        [ligado]="chipsLigados.has(item.idCategoria)"
+        (ligadoChange)="alternarChip(item.idCategoria, $event)"
+      ></eco-chip-material>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Chip de material (formulário)" aria-labelledby="catalogo-chip-formulario">
+    <h2 class="secao__titulo" id="catalogo-chip-formulario">Chip de material (formulário)</h2>
+    <p class="nota">No formulário, é uma caixa de seleção nativa, com o mesmo desenho do chip do filtro.</p>
+    <div class="variantes">
+      <figure class="variante" data-variante="Estado=Desligado">
+        <div class="variante__amostra" inert>
+          <eco-chip-material variante="formulario" rotulo="Material"></eco-chip-material>
+        </div>
+        <figcaption class="variante__nome">Estado=Desligado</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Estado=Ligado">
+        <div class="variante__amostra" inert>
+          <eco-chip-material variante="formulario" rotulo="Material" [ligado]="true"></eco-chip-material>
+        </div>
+        <figcaption class="variante__nome">Estado=Ligado</figcaption>
+      </figure>
+    </div>
+    <h3 class="grupo__titulo">Ao vivo</h3>
+    <fieldset class="ao-vivo grupo-de-campos" data-ao-vivo="Chip de material (formulário)">
+      <legend class="grupo-de-campos__legenda">Materiais aceitos</legend>
+      <div class="ao-vivo--fila">
+        <eco-chip-material
+          *ngFor="let item of materiais"
+          variante="formulario"
+          [rotulo]="item.nome"
+          [ligado]="chipsLigados.has(item.idCategoria)"
+          (ligadoChange)="alternarChip(item.idCategoria, $event)"
+        ></eco-chip-material>
+      </div>
+    </fieldset>
+  </section>
+
+  <section class="secao" data-componente="Campo de texto" aria-labelledby="catalogo-campo">
+    <h2 class="secao__titulo" id="catalogo-campo">Campo de texto</h2>
+    <div class="variantes variantes--campos">
+      <figure class="variante" data-variante="Estado=Vazio">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-campo-texto rotulo="Rótulo" marcador="Digite aqui"></eco-campo-texto>
+        </div>
+        <figcaption class="variante__nome">Estado=Vazio</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Estado=Preenchido">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-campo-texto rotulo="Rótulo" [ngModel]="'Valor'"></eco-campo-texto>
+        </div>
+        <figcaption class="variante__nome">Estado=Preenchido</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Estado=Foco">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-campo-texto rotulo="Rótulo" estadoForcado="foco" [ngModel]="'Valor'"></eco-campo-texto>
+        </div>
+        <figcaption class="variante__nome">Estado=Foco</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Estado=Erro">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-campo-texto rotulo="Rótulo" erro="Informe o nome do ponto." [ngModel]="'Valor'"></eco-campo-texto>
+        </div>
+        <figcaption class="variante__nome">Estado=Erro</figcaption>
+      </figure>
+      <figure class="variante variante--extra" data-variante="Estado=Com ajuda">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-campo-texto rotulo="Senha" tipo="password" ajuda="Pelo menos 8 caracteres."></eco-campo-texto>
+        </div>
+        <figcaption class="variante__nome">Estado=Com ajuda</figcaption>
+      </figure>
+      <figure class="variante variante--extra" data-variante="Estado=Desabilitado">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-campo-texto rotulo="Rótulo" [desabilitado]="true" [ngModel]="'Valor'"></eco-campo-texto>
+        </div>
+        <figcaption class="variante__nome">Estado=Desabilitado</figcaption>
+      </figure>
+    </div>
+    <h3 class="grupo__titulo">Ao vivo</h3>
+    <div class="ao-vivo variantes--campos" data-ao-vivo="Campo de texto">
+      <eco-campo-texto
+        rotulo="Nome do ponto"
+        marcador="Ex.: Ecoponto Luizote de Freitas"
+        [maximo]="120"
+        [obrigatorio]="true"
+        ajuda="Até 120 caracteres."
+        [(ngModel)]="nomeDoPonto"
+      ></eco-campo-texto>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Seletor" aria-labelledby="catalogo-seletor">
+    <h2 class="secao__titulo" id="catalogo-seletor">Seletor (menu de bairros do D06)</h2>
+    <p class="nota">
+      Fechado, é o Campo de texto com a seta. Provisório: fundo, borda e opção ativa do menu aberto ainda não foram
+      lidos no Figma. Teclado: setas, Home, End, Enter, Esc e letras para buscar.
+    </p>
+    <div class="variantes variantes--campos">
+      <figure class="variante variante--extra" data-variante="Estado=Fechado">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-seletor rotulo="Bairro" [opcoes]="opcoesDeBairro" [ngModel]="null"></eco-seletor>
+        </div>
+        <figcaption class="variante__nome">Estado=Fechado</figcaption>
+      </figure>
+      <figure class="variante variante--extra" data-variante="Estado=Erro">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-seletor
+            rotulo="Bairro"
+            marcador="Escolha o bairro"
+            erro="Escolha o bairro do ponto."
+            [opcoes]="opcoesSemTodos"
+          ></eco-seletor>
+        </div>
+        <figcaption class="variante__nome">Estado=Erro</figcaption>
+      </figure>
+      <figure class="variante variante--extra variante--menu" data-variante="Estado=Aberto">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-seletor rotulo="Bairro" estadoForcado="aberto" [opcoes]="opcoesDeBairro" [ngModel]="null"></eco-seletor>
+        </div>
+        <figcaption class="variante__nome">Estado=Aberto</figcaption>
+      </figure>
+    </div>
+    <h3 class="grupo__titulo">Ao vivo</h3>
+    <div class="ao-vivo variantes--campos" data-ao-vivo="Seletor">
+      <eco-seletor rotulo="Bairro" [opcoes]="opcoesDeBairro" [(ngModel)]="bairro"></eco-seletor>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Item de filtro" aria-labelledby="catalogo-filtro">
+    <h2 class="secao__titulo" id="catalogo-filtro">Item de filtro</h2>
+    <p class="nota">Provisório: cores e texto ainda não foram lidos no Figma; seguem o Link de navegação.</p>
+    <div class="variantes variantes--filtros">
+      <figure class="variante" data-variante="Estado=Padrão">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <button eco-item-filtro [contagem]="3">Papel e papelão</button>
+        </div>
+        <figcaption class="variante__nome">Estado=Padrão</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Estado=Hover">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <button eco-item-filtro estadoForcado="hover" [contagem]="3">Papel e papelão</button>
+        </div>
+        <figcaption class="variante__nome">Estado=Hover</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Estado=Selecionado">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <button eco-item-filtro [selecionado]="true" [contagem]="13">Todos os materiais</button>
+        </div>
+        <figcaption class="variante__nome">Estado=Selecionado</figcaption>
+      </figure>
+    </div>
+    <h3 class="grupo__titulo">Ao vivo</h3>
+    <div class="ao-vivo" data-ao-vivo="Item de filtro">
+      <p class="grupo__titulo" id="catalogo-filtro-material">Material</p>
+      <ul class="filtros" aria-labelledby="catalogo-filtro-material">
+        <li>
+          <button eco-item-filtro [selecionado]="material === null" [contagem]="13" (click)="material = null">
+            Todos os materiais
+          </button>
+        </li>
+        <li *ngFor="let item of materiais">
+          <button
+            eco-item-filtro
+            [selecionado]="material === item.idCategoria"
+            [contagem]="item.contagem"
+            (click)="material = item.idCategoria"
+          >
+            {{ item.nome }}
+          </button>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Link de navegação" aria-labelledby="catalogo-link">
+    <h2 class="secao__titulo" id="catalogo-link">Link de navegação</h2>
+    <div class="variantes">
+      <figure class="variante" data-variante="Estado=Padrão">
+        <div class="variante__amostra" inert><a eco-link-navegacao routerLink="/catalogo">Pontos de coleta</a></div>
+        <figcaption class="variante__nome">Estado=Padrão</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Estado=Hover">
+        <div class="variante__amostra" inert>
+          <a eco-link-navegacao routerLink="/catalogo" estadoForcado="hover">Pontos de coleta</a>
+        </div>
+        <figcaption class="variante__nome">Estado=Hover</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Estado=Ativo">
+        <div class="variante__amostra" inert>
+          <a eco-link-navegacao routerLink="/catalogo" [ativo]="true">Pontos de coleta</a>
+        </div>
+        <figcaption class="variante__nome">Estado=Ativo</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Aba" aria-labelledby="catalogo-aba">
+    <h2 class="secao__titulo" id="catalogo-aba">Aba</h2>
+    <p class="nota">
+      Provisório: cores, texto e a marca da aba ativa ainda não foram lidos no Figma. Teclado: as setas trocam de aba;
+      Home e End vão à primeira e à última.
+    </p>
+    <figure class="variante variante--larga" data-variantes="Estado=Padrão|Estado=Ativa" data-ao-vivo="Aba">
+      <eco-abas rotulo="Painel" [abas]="abasDoPainel" [(selecionada)]="abaDoPainel">
+        <p class="nota">Conteúdo da aba {{ abaDoPainel }}.</p>
+      </eco-abas>
+      <figcaption class="variante__nome">Estado=Ativa (a escolhida) e Estado=Padrão (as outras)</figcaption>
+    </figure>
+  </section>
+
+  <section class="secao" data-componente="Avatar" aria-labelledby="catalogo-avatar">
+    <h2 class="secao__titulo" id="catalogo-avatar">Avatar</h2>
+    <div class="variantes">
+      <figure class="variante" data-variante="Avatar">
+        <div class="variante__amostra"><eco-avatar nome="Maria Souza"></eco-avatar></div>
+        <figcaption class="variante__nome">Avatar</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Item da barra inferior" aria-labelledby="catalogo-item-barra">
+    <h2 class="secao__titulo" id="catalogo-item-barra">Item da barra inferior</h2>
+    <div class="variantes">
+      <figure class="variante" data-variante="Estado=Padrão">
+        <div class="variante__amostra" inert>
+          <a eco-item-barra-inferior routerLink="/catalogo" icone="pino">Pontos</a>
+        </div>
+        <figcaption class="variante__nome">Estado=Padrão</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Estado=Ativo">
+        <div class="variante__amostra" inert>
+          <a eco-item-barra-inferior routerLink="/catalogo" icone="pino" [ativo]="true">Pontos</a>
+        </div>
+        <figcaption class="variante__nome">Estado=Ativo</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Linha de ponto (desktop)" aria-labelledby="catalogo-linha">
+    <h2 class="secao__titulo" id="catalogo-linha">Linha de ponto (desktop)</h2>
+    <div class="variantes variantes--largas">
+      <figure class="variante" data-variante="Estado=Padrão">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-linha-ponto
+            layout="linha"
+            nome="Nome do ponto"
+            bairro="Bairro"
+            endereco="Endereço"
+            [materiais]="['Materiais aceitos']"
+          ></eco-linha-ponto>
+        </div>
+        <figcaption class="variante__nome">Estado=Padrão</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Estado=Hover">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-linha-ponto
+            layout="linha"
+            estadoForcado="hover"
+            nome="Nome do ponto"
+            bairro="Bairro"
+            endereco="Endereço"
+            [materiais]="['Materiais aceitos']"
+          ></eco-linha-ponto>
+        </div>
+        <figcaption class="variante__nome">Estado=Hover</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Cartão de ponto (celular)" aria-labelledby="catalogo-cartao">
+    <h2 class="secao__titulo" id="catalogo-cartao">Cartão de ponto (celular)</h2>
+    <div class="variantes variantes--celular">
+      <figure class="variante" data-variante="Estado=Padrão">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-linha-ponto
+            layout="cartao"
+            nome="Nome do ponto"
+            bairro="Bairro"
+            endereco="Endereço"
+            [materiais]="['Materiais aceitos']"
+          ></eco-linha-ponto>
+        </div>
+        <figcaption class="variante__nome">Estado=Padrão</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Estado=Pressionado">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-linha-ponto
+            layout="cartao"
+            estadoForcado="pressionado"
+            nome="Nome do ponto"
+            bairro="Bairro"
+            endereco="Endereço"
+            [materiais]="['Materiais aceitos']"
+          ></eco-linha-ponto>
+        </div>
+        <figcaption class="variante__nome">Estado=Pressionado</figcaption>
+      </figure>
+    </div>
+    <h3 class="grupo__titulo">Ao vivo: cartão no celular e no tablet, linha no desktop</h3>
+    <ul class="ao-vivo lista-de-pontos" data-ao-vivo="Linha de ponto">
+      <li *ngFor="let ponto of pontosDaLista">
+        <eco-linha-ponto
+          rota="/catalogo"
+          [nome]="ponto.nome"
+          [bairro]="ponto.bairro"
+          [endereco]="ponto.endereco"
+          [materiais]="ponto.materiais"
+        ></eco-linha-ponto>
+      </li>
+    </ul>
+  </section>
+
+  <section class="secao" data-componente="Tabela" aria-labelledby="catalogo-tabela">
+    <h2 class="secao__titulo" id="catalogo-tabela">Tabela do painel (D14)</h2>
+    <p class="nota">
+      As 7 primeiras linhas da aba Pontos. "Excluir" abre o diálogo de confirmação. Em telas estreitas, a tabela rola
+      para o lado.
+    </p>
+    <eco-tabela
+      legenda="Pontos aprovados"
+      data-ao-vivo="Tabela"
+      [itens]="pontos"
+      [total]="totalDePontos"
+      (mostrarMais)="mostrarMais()"
+    >
+      <ng-template ecoColuna="Ponto" let-ponto>
+        <eco-celula-ponto [nome]="ponto.nome" [bairro]="ponto.bairro" [endereco]="ponto.endereco"></eco-celula-ponto>
+      </ng-template>
+      <ng-template ecoColuna="Materiais" largura="larga" let-ponto>{{ ponto.materiais.join(', ') }}</ng-template>
+      <ng-template ecoColuna="Ações" largura="acoes" let-ponto>
+        <button eco-botao type="button" tipo="texto" tamanho="p" (click)="editar(ponto)">
+          Editar<span class="so-leitor-de-tela"> {{ ponto.nome }}</span>
+        </button>
+        <button eco-botao type="button" tipo="texto" tamanho="p" (click)="excluir(ponto)">
+          Excluir<span class="so-leitor-de-tela"> {{ ponto.nome }}</span>
+        </button>
+      </ng-template>
+    </eco-tabela>
+  </section>
+
+  <section class="secao" data-componente="Barra superior (desktop)" aria-labelledby="catalogo-barra-superior">
+    <h2 class="secao__titulo" id="catalogo-barra-superior">Barra superior (desktop)</h2>
+    <p class="nota">
+      Provisório: a barra não foi lida no Figma. Marca, links e avatar vêm dos componentes lidos; os rótulos de Sugerir,
+      Minhas e Painel, os botões da direita e os espaços precisam ser conferidos.
+    </p>
+    <div class="variantes variantes--barras">
+      <figure *ngFor="let barra of barrasSuperiores" class="variante" [attr.data-variante]="barra.nome">
+        <div class="variante__amostra variante__amostra--larga rolagem-lateral" inert>
+          <eco-barra-superior
+            [perfil]="barra.perfil"
+            [pagina]="barra.pagina"
+            [nome]="nomeNaBarra(barra.perfil)"
+          ></eco-barra-superior>
+        </div>
+        <figcaption class="variante__nome">{{ barra.nome }}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Cabeçalho (celular)" aria-labelledby="catalogo-cabecalho">
+    <h2 class="secao__titulo" id="catalogo-cabecalho">Cabeçalho (celular)</h2>
+    <div class="variantes variantes--celular">
+      <figure class="variante" data-variante="Tipo=Principal, Perfil=Visitante">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-cabecalho-celular perfil="visitante"></eco-cabecalho-celular>
+        </div>
+        <figcaption class="variante__nome">Tipo=Principal, Perfil=Visitante</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Tipo=Principal, Perfil=Usuário">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-cabecalho-celular perfil="usuario" [nome]="nomeNaBarra('usuario')"></eco-cabecalho-celular>
+        </div>
+        <figcaption class="variante__nome">Tipo=Principal, Perfil=Usuário</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Tipo=Principal, Perfil=Administrador">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-cabecalho-celular perfil="administrador" [nome]="nomeNaBarra('administrador')"></eco-cabecalho-celular>
+        </div>
+        <figcaption class="variante__nome">Tipo=Principal, Perfil=Administrador</figcaption>
+      </figure>
+      <figure class="variante" data-variante="Tipo=Interna">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-cabecalho-celular tipo="interna" titulo="Título da página"></eco-cabecalho-celular>
+        </div>
+        <figcaption class="variante__nome">Tipo=Interna</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Barra inferior (celular)" aria-labelledby="catalogo-barra-inferior">
+    <h2 class="secao__titulo" id="catalogo-barra-inferior">Barra inferior (celular)</h2>
+    <p class="nota">
+      Provisório: a barra não foi lida no Figma. 3 itens para o usuário e 4 para o administrador, como pede o cartão;
+      os rótulos e ícones de Sugerir, Minhas e Painel precisam ser conferidos.
+    </p>
+    <div class="variantes variantes--celular">
+      <figure *ngFor="let barra of barrasInferiores" class="variante" [attr.data-variante]="barra.nome">
+        <div class="variante__amostra variante__amostra--larga" inert>
+          <eco-barra-inferior [perfil]="barra.perfil" [pagina]="barra.pagina"></eco-barra-inferior>
+        </div>
+        <figcaption class="variante__nome">{{ barra.nome }}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Barras ao vivo" aria-labelledby="catalogo-barras">
+    <h2 class="secao__titulo" id="catalogo-barras">Barras por perfil, ao vivo</h2>
+    <p class="nota">
+      Os links levam às telas, que chegam do FE-03 em diante; até lá, voltam à página inicial. Visitante e Acesso não
+      têm barra inferior.
+    </p>
+    <eco-abas rotulo="Perfil" data-ao-vivo="Barras" [abas]="abasDePerfil" [selecionada]="perfilAoVivo"
+      (selecionadaChange)="trocarPerfil($event)">
+      <div class="barras-ao-vivo">
+        <div class="rolagem-lateral">
+          <eco-barra-superior
+            [perfil]="perfilAoVivo"
+            [pagina]="perfilAoVivo === 'acesso' ? null : 'pontos'"
+            [nome]="nomeNaBarra(perfilAoVivo)"
+            (sair)="sair()"
+          ></eco-barra-superior>
+        </div>
+        <div class="celular">
+          <eco-cabecalho-celular
+            [perfil]="perfilAoVivo"
+            [nome]="nomeNaBarra(perfilAoVivo)"
+            (conta)="abrirConta()"
+          ></eco-cabecalho-celular>
+          <eco-barra-inferior [perfil]="perfilAoVivo" pagina="pontos"></eco-barra-inferior>
+        </div>
+      </div>
+    </eco-abas>
+  </section>
+
+  <section class="secao" data-componente="Aviso" aria-labelledby="catalogo-aviso">
+    <h2 class="secao__titulo" id="catalogo-aviso">Aviso</h2>
+    <p class="nota">
+      Provisório: fundo, texto e raio ainda não foram lidos no Figma. Some sozinho em 4 s; o relógio para com o mouse em
+      cima. Entra por cima no desktop e por baixo no celular.
+    </p>
+    <div class="variantes">
+      <figure class="variante" data-variante="Aviso">
+        <div class="variante__amostra">
+          <eco-aviso>Sugestão enviada. Ela fica pendente até a análise.</eco-aviso>
+        </div>
+        <figcaption class="variante__nome">Aviso</figcaption>
+      </figure>
+    </div>
+    <h3 class="grupo__titulo">Ao vivo</h3>
+    <div class="ao-vivo ao-vivo--fila" data-ao-vivo="Aviso">
+      <button eco-botao type="button" tipo="secundario" (click)="mostrarAviso()">Mostrar aviso</button>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Diálogo" aria-labelledby="catalogo-dialogo">
+    <h2 class="secao__titulo" id="catalogo-dialogo">Diálogo de confirmação (D15)</h2>
+    <p class="nota">
+      Provisório: os textos e o desenho do D15 ainda não foram lidos no Figma; o título e a mensagem abaixo são exemplos.
+      Abre com o foco em "Cancelar", prende o Tab, fecha com Esc e devolve o foco ao botão que o abriu.
+    </p>
+    <div class="ao-vivo ao-vivo--fila" data-ao-vivo="Diálogo">
+      <button eco-botao type="button" tipo="secundario" (click)="excluir(pontos[1])">Abrir diálogo</button>
+    </div>
+  </section>
+
+  <section class="secao" data-componente="Marca" aria-labelledby="catalogo-marca">
+    <h2 class="secao__titulo" id="catalogo-marca">Marca</h2>
+    <div class="variantes">
+      <figure class="variante" data-variante="mostrarCidade=true">
+        <div class="variante__amostra"><eco-marca></eco-marca></div>
+        <figcaption class="variante__nome">mostrarCidade=true</figcaption>
+      </figure>
+      <figure class="variante" data-variante="mostrarCidade=false">
+        <div class="variante__amostra"><eco-marca [mostrarCidade]="false"></eco-marca></div>
+        <figcaption class="variante__nome">mostrarCidade=false</figcaption>
+      </figure>
+    </div>
+  </section>
+</main>

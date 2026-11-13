@@ -1,0 +1,52 @@
+<span class="seletor__rotulo" [id]="id + '-rotulo'">{{ rotulo }}</span>
+<div class="seletor__ancora">
+  <div
+    #caixa
+    class="seletor__caixa"
+    [class.seletor__caixa--erro]="!!erro"
+    [class.seletor__caixa--foco]="estadoForcado !== null"
+    [class.seletor__caixa--desabilitada]="desativado"
+    role="combobox"
+    [attr.tabindex]="desativado ? -1 : 0"
+    aria-haspopup="listbox"
+    [attr.aria-expanded]="menuAberto"
+    [attr.aria-controls]="id + '-lista'"
+    [attr.aria-labelledby]="id + '-rotulo ' + id + '-valor'"
+    [attr.aria-activedescendant]="menuAberto && ativo >= 0 ? id + '-opcao-' + ativo : null"
+    [attr.aria-disabled]="desativado ? 'true' : null"
+    [attr.aria-invalid]="erro ? 'true' : null"
+    [attr.aria-required]="obrigatorio ? 'true' : null"
+    [attr.aria-describedby]="erro ? id + '-erro' : null"
+    (click)="alternar()"
+    (keydown)="aoTeclar($event)"
+    (blur)="aoSair()"
+  >
+    <span class="seletor__valor" [class.seletor__valor--vazio]="rotuloSelecionado === null" [id]="id + '-valor'">
+      {{ rotuloSelecionado ?? marcador }}
+    </span>
+    <eco-icone class="seletor__seta" nome="chevron-baixo" [tamanho]="16"></eco-icone>
+  </div>
+  <ul
+    *ngIf="menuAberto"
+    #lista
+    class="seletor__menu"
+    role="listbox"
+    [id]="id + '-lista'"
+    [attr.aria-labelledby]="id + '-rotulo'"
+    (mousedown)="$event.preventDefault()"
+  >
+    <li
+      *ngFor="let opcao of opcoes; let i = index"
+      class="seletor__opcao"
+      role="option"
+      [id]="id + '-opcao-' + i"
+      [class.seletor__opcao--ativa]="i === ativo"
+      [attr.aria-selected]="i === indiceSelecionado"
+      (click)="escolher(i)"
+    >
+      <span class="seletor__opcao-rotulo">{{ opcao.rotulo }}</span>
+      <eco-icone *ngIf="i === indiceSelecionado" nome="check" [tamanho]="16"></eco-icone>
+    </li>
+  </ul>
+</div>
+<p *ngIf="erro" class="seletor__erro" [id]="id + '-erro'">{{ erro }}</p>

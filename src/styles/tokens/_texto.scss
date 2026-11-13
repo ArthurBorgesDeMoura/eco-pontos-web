@@ -1,0 +1,21 @@
+@use 'sass:map';
+@use '../abstratos/texto' as *;
+
+:root {
+  --fonte-base: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', roboto, arial, sans-serif;
+  --fonte-codigo: ui-monospace, 'Cascadia Code', consolas, monospace;
+  --peso-regular: 400;
+  --peso-medio: 500;
+  --peso-seminegrito: 600;
+
+  @each $nome, $estilo in $estilos-texto {
+    --texto-#{$nome}: #{map.get($estilo, peso)} #{map.get($estilo, tamanho)} / #{map.get($estilo, altura)} var(--fonte-base);
+    --texto-#{$nome}-espacamento: #{map.get($estilo, espacamento)};
+  }
+}
+
+@each $nome, $estilo in $estilos-texto {
+  .texto-#{$nome} {
+    @include texto($nome);
+  }
+}

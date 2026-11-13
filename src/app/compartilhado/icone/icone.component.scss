@@ -1,0 +1,29 @@
+:host {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.icone {
+  width: var(--tamanho-icone-24);
+  height: var(--tamanho-icone-24);
+}
+
+.icone--14 {
+  width: var(--tamanho-icone-14);
+  height: var(--tamanho-icone-14);
+}
+
+.icone--16 {
+  width: var(--tamanho-icone-16);
+  height: var(--tamanho-icone-16);
+}
+
+.icone--20 {
+  width: var(--tamanho-icone-20);
+  height: var(--tamanho-icone-20);
+}
+
+.icone--22 {
+  width: var(--tamanho-icone-22);
+  height: var(--tamanho-icone-22);
+}

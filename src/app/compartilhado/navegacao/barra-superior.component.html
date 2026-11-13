@@ -1,0 +1,28 @@
+<div class="barra conteudo">
+  <a class="barra__marca" [routerLink]="rota.pontos"><eco-marca></eco-marca></a>
+
+  <nav *ngIf="destinos.length > 0" class="barra__links" aria-label="Principal">
+    <a
+      *ngFor="let destino of destinos"
+      eco-link-navegacao
+      [routerLink]="destino.rota"
+      [ativo]="destino.pagina === pagina"
+      >{{ destino.rotulo }}</a
+    >
+  </nav>
+
+  <span class="barra__espaco"></span>
+
+  <div *ngIf="perfil === 'visitante'" class="barra__acoes">
+    <a eco-botao tipo="texto" [routerLink]="rota.entrar">Entrar</a>
+    <a eco-botao [routerLink]="rota.criarConta">Criar conta</a>
+  </div>
+
+  <div *ngIf="logado" class="barra__acoes">
+    <span class="barra__conta">
+      <eco-avatar [nome]="nome"></eco-avatar>
+      <span class="barra__nome">{{ nome }}</span>
+    </span>
+    <button eco-botao type="button" tipo="texto" tamanho="p" (click)="sair.emit()">Sair</button>
+  </div>
+</div>

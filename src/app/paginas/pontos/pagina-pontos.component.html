@@ -1,0 +1,113 @@
+<main class="conteudo busca">
+  <header class="busca__cabecalho">
+    <h1 class="busca__titulo">Pontos de coleta</h1>
+    <p class="busca__apoio">Encontre onde descartar cada material em Uberlândia.</p>
+  </header>
+
+  <div class="busca__corpo">
+    <section class="busca__filtros" aria-label="Filtros">
+      <eco-seletor
+        class="busca__bairro"
+        rotulo="Bairro"
+        [marcador]="marcadorDoBairro"
+        [opcoes]="opcoesDeBairro"
+        [ngModel]="filtros.bairro"
+        (ngModelChange)="escolherBairro($event)"
+      ></eco-seletor>
+
+      <eco-seletor
+        class="busca__material-seletor"
+        rotulo="Material"
+        [marcador]="marcadorDoMaterial"
+        [opcoes]="opcoesDeMaterial"
+        [ngModel]="filtros.categoria"
+        (ngModelChange)="escolherMaterial($event)"
+      ></eco-seletor>
+
+      <div class="busca__material-lista">
+        <p class="busca__rotulo" id="busca-rotulo-material">Material</p>
+        <ul class="busca__materiais" aria-labelledby="busca-rotulo-material">
+          <li>
+            <button
+              eco-item-filtro
+              [selecionado]="filtros.categoria === null"
+              [contagem]="contagens ? contagens.total : null"
+              (click)="escolherMaterial(null)"
+            >Todos os materiais</button>
+          </li>
+          <li *ngFor="let categoria of categorias">
+            <button
+              eco-item-filtro
+              [selecionado]="filtros.categoria === categoria.idCategoria"
+              [contagem]="quantidadeDe(categoria.idCategoria)"
+              (click)="escolherMaterial(categoria.idCategoria)"
+            >{{ categoria.nome }}</button>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="busca__resultados" aria-labelledby="busca-contagem">
+      <header class="busca__lista-cabecalho" aria-live="polite">
+        <div class="busca__resumo-da-lista">
+          <h2 class="busca__contagem" id="busca-contagem" tabindex="-1">
+            <ng-container *ngIf="totalConhecido; else semTotal">{{ contagem }}</ng-container>
+            <ng-template #semTotal
+              ><span aria-hidden="true">{{ contagem }}</span
+              ><span class="so-leitor-de-tela">{{ contagemSemTotal }}</span></ng-template
+            >
+          </h2>
+          <p *ngIf="materialEscolhido?.descricao" class="busca__descricao">{{ materialEscolhido?.descricao }}</p>
+        </div>
+        <p *ngIf="carregando || (total ?? 0) > 0" class="busca__ordem">Ordenados por bairro, de A a Z</p>
+      </header>
+
+      <ul *ngIf="carregando" class="busca__lista" aria-hidden="true">
+        <li *ngFor="let linha of linhasDoEsqueleto"><eco-linha-ponto [esqueleto]="true"></eco-linha-ponto></li>
+      </ul>
+
+      <div *ngIf="!carregando && erro" class="busca__estado" role="alert">
+        <p class="busca__estado-mensagem">{{ erro }}</p>
+        <button eco-botao type="button" tipo="secundario" (click)="tentarDeNovo()">Tentar de novo</button>
+      </div>
+
+      <div *ngIf="!carregando && !erro && total === 0" class="busca__estado">
+        <div class="busca__estado-texto">
+          <p class="busca__estado-mensagem">{{ mensagemDoVazio }}</p>
+          <p class="busca__estado-orientacao">
+            Conhece um local onde algum material pode ser descartado? Sugira o ponto para análise.
+          </p>
+        </div>
+        <a eco-botao [routerLink]="rotaSugerir">Sugerir um ponto</a>
+      </div>
+
+      <ul *ngIf="!carregando && pontos.length > 0" class="busca__lista">
+        <li *ngFor="let ponto of pontos; trackBy: porId">
+          <eco-linha-ponto
+            [nome]="ponto.nome"
+            [bairro]="ponto.bairro.nome"
+            [endereco]="ponto.endereco"
+            [materiais]="nomesDosMateriais(ponto)"
+            [rota]="['/pontos', ponto.idPonto]"
+          ></eco-linha-ponto>
+        </li>
+      </ul>
+
+      <footer *ngIf="!carregando && (total ?? 0) > 0" class="busca__rodape">
+        <p class="busca__resumo" tabindex="-1">{{ resumo }}</p>
+        <p *ngIf="erroDoMais" class="busca__erro-do-mais" role="alert">{{ erroDoMais }}</p>
+        <button
+          *ngIf="haMais"
+          eco-botao
+          type="button"
+          tipo="secundario"
+          tamanho="p"
+          [attr.aria-disabled]="carregandoMais ? 'true' : null"
+          (click)="mostrarMais()"
+        >
+          Mostrar mais
+        </button>
+      </footer>
+    </section>
+  </div>
+</main>

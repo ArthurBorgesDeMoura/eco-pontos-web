@@ -1,0 +1,143 @@
+<main class="conteudo painel">
+  <header class="painel__cabecalho">
+    <div class="painel__textos">
+      <h1 class="painel__titulo">Painel de administração</h1>
+      <p class="painel__subtitulo">Analise as sugestões e cuide dos pontos e categorias.</p>
+    </div>
+    <a
+      *ngIf="aba === 'categorias'"
+      eco-botao
+      class="painel__nova"
+      data-acao="nova-categoria"
+      [tamanho]="tamanhoDoNovo"
+      [larguraTotal]="tamanhoDoNovo === 'g'"
+      [routerLink]="rotaDaNovaCategoria"
+      (click)="lembrarNovaCategoria()"
+    >
+      Nova categoria
+    </a>
+  </header>
+
+  <p class="so-leitor-de-tela" role="status">{{ anuncio }}</p>
+  <p class="so-leitor-de-tela" role="alert">{{ alerta }}</p>
+
+  <eco-abas class="painel__abas" rotulo="Seções do painel" [abas]="abas" [selecionada]="aba" (selecionadaChange)="escolherAba($event)">
+    <eco-painel-pontos *ngIf="aba === 'pontos'"></eco-painel-pontos>
+
+    <eco-painel-categorias *ngIf="aba === 'categorias'"></eco-painel-categorias>
+
+    <ng-container *ngIf="aba === 'pendentes'">
+      <p *ngIf="carregando" class="painel__carregando">{{ mensagem.carregando }}</p>
+
+      <div *ngIf="!carregando && erro" class="painel__estado painel__estado--erro">
+        <p class="painel__estado-mensagem">{{ erro }}</p>
+        <button
+          eco-botao
+          type="button"
+          tipo="secundario"
+          [attr.aria-disabled]="tentando ? 'true' : null"
+          (click)="tentarDeNovo()"
+        >
+          Tentar de novo
+        </button>
+      </div>
+
+      <div *ngIf="!carregando && !erro && itens.length === 0" class="painel__estado">
+        <p class="painel__estado-mensagem" tabindex="-1">{{ mensagem.vazio }}</p>
+      </div>
+
+      <ng-container *ngIf="!carregando && !erro && itens.length > 0">
+        <eco-tabela
+          class="painel__tabela"
+          legenda="Sugestões pendentes"
+          [itens]="itens"
+          [total]="total"
+          [textoDoResumo]="resumo"
+          [itensSaindo]="saindo"
+          [carregando]="maisIndisponivel"
+          [rastrearPor]="porId"
+          (mostrarMais)="mostrarMais()"
+        >
+          <ng-template ecoColuna="Ponto" let-ponto>
+            <eco-celula-ponto
+              [nome]="ponto.nome"
+              [bairro]="bairro(ponto)"
+              [endereco]="ponto.endereco"
+              [detalhe]="dados(ponto)"
+            ></eco-celula-ponto>
+          </ng-template>
+          <ng-template ecoColuna="Materiais" largura="larga" let-ponto>{{ materiais(ponto) }}</ng-template>
+          <ng-template ecoColuna="Sugerido por" largura="media" let-ponto>
+            <span class="painel__autor">{{ autor(ponto) }}</span>
+          </ng-template>
+          <ng-template ecoColuna="Ações" largura="decisao" let-ponto>
+            <ng-container *ngTemplateOutlet="acoes; context: { $implicit: ponto, tamanho: 'p' }"></ng-container>
+          </ng-template>
+        </eco-tabela>
+
+        <div class="painel__compacto">
+          <ul class="painel__cartoes" aria-label="Sugestões pendentes">
+            <li
+              *ngFor="let ponto of itens; trackBy: porId"
+              class="painel__cartao"
+              [class.painel__cartao--saindo]="saindo.includes(ponto)"
+            >
+              <div class="painel__cartao-dados">
+                <span class="painel__nome">{{ ponto.nome }}</span>
+                <span class="painel__local">{{ local(ponto) }}</span>
+                <span class="painel__detalhe">{{ dados(ponto) }}</span>
+                <span class="painel__materiais">{{ materiais(ponto) }}</span>
+                <span class="painel__sugerido">Sugerido por {{ autor(ponto) }}</span>
+              </div>
+              <div class="painel__cartao-acoes">
+                <ng-container *ngTemplateOutlet="acoes; context: { $implicit: ponto, tamanho: 'g' }"></ng-container>
+              </div>
+            </li>
+          </ul>
+          <div class="painel__rodape">
+            <p class="painel__resumo" tabindex="-1">{{ resumo }}</p>
+            <button
+              *ngIf="haMais"
+              eco-botao
+              type="button"
+              tipo="secundario"
+              tamanho="g"
+              [attr.aria-disabled]="maisIndisponivel ? 'true' : null"
+              (click)="mostrarMais()"
+            >
+              Mostrar mais
+            </button>
+          </div>
+        </div>
+
+        <p *ngIf="erroDoMais" class="painel__erro-do-mais">{{ erroDoMais }}</p>
+      </ng-container>
+    </ng-container>
+  </eco-abas>
+</main>
+
+<ng-template #acoes let-ponto let-tamanho="tamanho">
+  <button
+    eco-botao
+    type="button"
+    tipo="secundario"
+    [tamanho]="tamanho"
+    [attr.data-ponto]="ponto.idPonto"
+    data-decisao="recusar"
+    [attr.aria-disabled]="decidindo.has(ponto.idPonto) ? 'true' : null"
+    (click)="decidir(ponto, 'recusar')"
+  >
+    Recusar<span class="so-leitor-de-tela"> {{ ponto.nome }}</span>
+  </button>
+  <button
+    eco-botao
+    type="button"
+    [tamanho]="tamanho"
+    [attr.data-ponto]="ponto.idPonto"
+    data-decisao="aprovar"
+    [attr.aria-disabled]="decidindo.has(ponto.idPonto) ? 'true' : null"
+    (click)="decidir(ponto, 'aprovar')"
+  >
+    Aprovar<span class="so-leitor-de-tela"> {{ ponto.nome }}</span>
+  </button>
+</ng-template>

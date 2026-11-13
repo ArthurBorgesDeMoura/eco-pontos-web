@@ -1,0 +1,19 @@
+@use 'abstratos' as *;
+
+:host {
+  display: block;
+  padding-bottom: var(--espaco-seguro-inferior);
+  border-top: var(--espessura-linha) solid var(--cor-borda-linha);
+  background-color: var(--cor-fundo-superficie);
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.barra-inferior {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: calc(var(--altura-barra-inferior) - var(--espessura-linha));
+}

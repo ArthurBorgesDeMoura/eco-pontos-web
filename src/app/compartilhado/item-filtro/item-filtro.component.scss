@@ -1,0 +1,52 @@
+@use 'abstratos' as *;
+
+:host {
+  @include texto(corpo-14);
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-8);
+  width: 100%;
+  height: var(--controle-altura-m);
+  padding: 0 var(--espaco-12);
+  border: 0;
+  border-radius: var(--raio-controle);
+  background-color: transparent;
+  color: var(--cor-texto-secundario);
+  text-align: left;
+  cursor: pointer;
+
+  @include ao-passar-o-mouse {
+    background-color: var(--cor-fundo-rebaixado);
+    color: var(--cor-texto-principal);
+  }
+}
+
+:host::after {
+  @include alvo-de-toque;
+}
+
+:host(.item--forcar-hover) {
+  background-color: var(--cor-fundo-rebaixado);
+  color: var(--cor-texto-principal);
+}
+
+:host(.item--selecionado) {
+  background-color: var(--cor-fundo-ativo);
+  color: var(--cor-texto-principal);
+}
+
+.item__rotulo {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item__contagem {
+  @include texto(apoio-13);
+
+  color: var(--cor-texto-terciario);
+}

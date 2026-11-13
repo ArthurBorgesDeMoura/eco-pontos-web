@@ -1,0 +1,22 @@
+<div *ngIf="pedido" class="dialogo" [class.dialogo--saindo]="saindo">
+  <div class="dialogo__fundo" aria-hidden="true" (click)="responder(false)"></div>
+  <div
+    #janela
+    class="dialogo__janela"
+    role="alertdialog"
+    tabindex="-1"
+    aria-modal="true"
+    [attr.aria-labelledby]="'dialogo-titulo-' + pedido.id"
+    [attr.aria-describedby]="'dialogo-texto-' + pedido.id"
+    (animationend)="aoTerminarAnimacao($event)"
+  >
+    <h2 class="dialogo__titulo" [id]="'dialogo-titulo-' + pedido.id">{{ pedido.titulo }}</h2>
+    <p class="dialogo__texto" [id]="'dialogo-texto-' + pedido.id">{{ pedido.texto }}</p>
+    <div class="dialogo__acoes">
+      <button #botaoCancelar eco-botao type="button" tipo="secundario" (click)="responder(false)">
+        {{ pedido.cancelar }}
+      </button>
+      <button eco-botao type="button" [tipo]="pedido.tipo" (click)="responder(true)">{{ pedido.confirmar }}</button>
+    </div>
+  </div>
+</div>

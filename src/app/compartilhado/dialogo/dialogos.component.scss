@@ -1,0 +1,64 @@
+@use 'abstratos' as *;
+
+.dialogo {
+  position: fixed;
+  inset: 0;
+  z-index: var(--camada-dialogo);
+  display: grid;
+  place-items: center;
+  padding: var(--margem-pagina);
+}
+
+.dialogo__fundo {
+  @include animar-entrada(eco-esmaecer-entrar, var(--duracao-dialogo));
+
+  position: absolute;
+  inset: 0;
+  background-color: var(--cor-sobreposicao);
+}
+
+.dialogo__janela {
+  @include animar-entrada(eco-dialogo-entrar, var(--duracao-dialogo));
+
+  position: relative;
+  width: min(100%, var(--largura-dialogo));
+  padding: var(--espaco-24);
+  border: var(--espessura-linha) solid var(--cor-borda-cartao);
+  border-radius: var(--raio-cartao);
+  background-color: var(--cor-fundo-superficie);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.dialogo--saindo {
+  .dialogo__fundo {
+    @include animar-saida(eco-esmaecer-sair, var(--duracao-dialogo-saida));
+  }
+
+  .dialogo__janela {
+    @include animar-saida(eco-dialogo-sair, var(--duracao-dialogo-saida));
+  }
+}
+
+.dialogo__titulo {
+  @include texto(secao-16);
+
+  color: var(--cor-texto-principal);
+}
+
+.dialogo__texto {
+  @include texto(corpo-14);
+
+  margin-top: var(--espaco-6);
+  color: var(--cor-texto-secundario);
+}
+
+.dialogo__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--espaco-8);
+  margin-top: var(--espaco-20);
+}

@@ -1,0 +1,25 @@
+@use 'abstratos' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  text-align: left;
+}
+
+.celula__nome {
+  @include texto(corpo-14-forte);
+
+  color: var(--cor-texto-principal);
+}
+
+.celula__local,
+.celula__detalhe {
+  @include texto(apoio-13);
+
+  color: var(--cor-texto-secundario);
+}
+
+.celula__detalhe {
+  color: var(--cor-texto-terciario);
+}

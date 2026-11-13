@@ -1,0 +1,49 @@
+@use 'abstratos' as *;
+
+.tela > router-outlet + * {
+  display: block;
+}
+
+.tela {
+  overflow-x: clip;
+}
+
+.tela--esmaecer > router-outlet + * {
+  @include animar-entrada(eco-esmaecer-entrar, var(--duracao-troca-de-tela), var(--curva-hover));
+}
+
+.tela .tela__barra-superior {
+  @include abaixo-de(desktop) {
+    display: none;
+  }
+}
+
+.tela .tela__cabecalho {
+  @include a-partir-de(desktop) {
+    display: none;
+  }
+}
+
+.tela .tela__barra-inferior {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--camada-barra);
+
+  @include a-partir-de(desktop) {
+    display: none;
+  }
+}
+
+.tela--com-barra-inferior {
+  @include abaixo-de(desktop) {
+    padding-bottom: var(--espaco-barra-inferior-fixa);
+  }
+}
+
+html:has(.tela--com-barra-inferior) {
+  @include abaixo-de(desktop) {
+    scroll-padding-bottom: var(--espaco-barra-inferior-fixa);
+  }
+}

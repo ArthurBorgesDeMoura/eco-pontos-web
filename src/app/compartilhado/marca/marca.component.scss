@@ -1,0 +1,39 @@
+@use 'abstratos' as *;
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-8);
+}
+
+.marca__simbolo {
+  flex-shrink: 0;
+  width: var(--altura-pilula);
+  height: var(--altura-pilula);
+  color: var(--cor-marca-verde);
+}
+
+.marca__nome {
+  @include texto(marca-18);
+
+  color: var(--cor-texto-principal);
+  white-space: nowrap;
+}
+
+.marca__cidade {
+  @include texto(apoio-13);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-12);
+  padding-left: var(--espaco-4);
+  color: var(--cor-texto-secundario);
+  white-space: nowrap;
+
+  &::before {
+    width: var(--espessura-linha);
+    height: var(--altura-divisor-marca);
+    background-color: var(--cor-borda-cartao);
+    content: '';
+  }
+}

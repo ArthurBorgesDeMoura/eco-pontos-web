@@ -1,0 +1,56 @@
+<main class="conteudo acesso">
+  <section class="acesso__cartao" aria-labelledby="acesso-titulo">
+    <header class="acesso__cabecalho">
+      <h1 id="acesso-titulo" class="acesso__titulo">Criar conta</h1>
+      <p class="acesso__apoio">Com uma conta, você sugere pontos de coleta e acompanha cada sugestão.</p>
+    </header>
+
+    <p *ngIf="erroGeral" class="acesso__erro" role="alert">{{ erroGeral }}</p>
+
+    <form class="acesso__formulario" [formGroup]="formulario" (ngSubmit)="enviar()" novalidate>
+      <eco-campo-texto
+        rotulo="Nome"
+        nome="nome"
+        autocomplete="name"
+        [maximo]="maximoDoNome"
+        [obrigatorio]="true"
+        [erro]="erroDo('nome')"
+        formControlName="nome"
+      ></eco-campo-texto>
+      <eco-campo-texto
+        rotulo="E-mail"
+        tipo="email"
+        nome="email"
+        autocomplete="username"
+        [maximo]="maximoDoEmail"
+        [obrigatorio]="true"
+        [erro]="erroDo('email')"
+        formControlName="email"
+      ></eco-campo-texto>
+      <eco-campo-texto
+        rotulo="Senha"
+        tipo="password"
+        nome="senha"
+        autocomplete="new-password"
+        [ajuda]="ajudaDaSenha"
+        [obrigatorio]="true"
+        [erro]="erroDo('senha')"
+        formControlName="senha"
+      ></eco-campo-texto>
+      <button
+        eco-botao
+        type="submit"
+        tamanho="g"
+        class="acesso__enviar"
+        [larguraTotal]="true"
+        [attr.aria-disabled]="enviando ? 'true' : null"
+      >
+        {{ enviando ? 'Criando conta…' : 'Criar conta' }}
+      </button>
+    </form>
+
+    <p class="acesso__troca">
+      Já tem conta? <a [routerLink]="rotaEntrar" [queryParams]="parametrosDoVoltar">Entrar</a>
+    </p>
+  </section>
+</main>

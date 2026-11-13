@@ -1,0 +1,13 @@
+@use 'abstratos' as *;
+
+.editar__carregando {
+  @include texto(corpo-14);
+
+  color: var(--cor-texto-secundario);
+}
+
+.editar__estado {
+  display: grid;
+  justify-items: start;
+  gap: var(--espaco-16);
+}

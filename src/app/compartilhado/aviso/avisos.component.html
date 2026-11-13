@@ -1,0 +1,13 @@
+<div class="avisos" role="status" aria-live="polite" aria-atomic="true">
+  <eco-aviso
+    *ngFor="let atual of visiveis; trackBy: porId"
+    class="avisos__aviso"
+    [class.avisos__aviso--saindo]="saindo"
+    (pointerenter)="aoEntrarPonteiro($event)"
+    (pointerleave)="retomar('ponteiro')"
+    (focusin)="pausar('foco')"
+    (focusout)="retomar('foco')"
+    (animationend)="aoTerminarAnimacao($event)"
+    >{{ atual.texto }}</eco-aviso
+  >
+</div>

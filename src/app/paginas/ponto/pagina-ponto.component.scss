@@ -1,0 +1,188 @@
+@use 'abstratos' as *;
+
+:host {
+  display: block;
+}
+
+:host(.ponto--entrar) {
+  @include abaixo-de(desktop) {
+    @include animar-entrada(eco-empurrar-entrar, var(--duracao-empurrar), var(--curva-empurrar));
+  }
+}
+
+:host(.ponto--sair) {
+  @include abaixo-de(desktop) {
+    @include animar-saida(eco-empurrar-sair, var(--duracao-empurrar-saida), var(--curva-empurrar));
+  }
+}
+
+.ponto {
+  display: grid;
+  gap: var(--espaco-24);
+  padding-block: var(--espaco-24) var(--espaco-48);
+
+  @include a-partir-de(desktop) {
+    padding-block: var(--espaco-32) var(--espaco-64);
+  }
+}
+
+.ponto__voltar {
+  @include texto(apoio-13-medio);
+
+  display: none;
+  align-items: center;
+  justify-self: start;
+  gap: var(--espaco-6);
+  height: var(--controle-altura-p);
+  color: var(--cor-texto-secundario);
+  text-decoration: none;
+
+  @include ao-passar-o-mouse {
+    color: var(--cor-texto-principal);
+    text-decoration: underline;
+  }
+
+  @include a-partir-de(desktop) {
+    display: inline-flex;
+  }
+}
+
+.ponto__pagina {
+  display: grid;
+  gap: var(--espaco-24);
+}
+
+.ponto__cabecalho {
+  display: grid;
+  gap: var(--espaco-4);
+}
+
+.ponto__titulo {
+  @include texto(titulo-22-celular);
+
+  @include a-partir-de(desktop) {
+    @include texto(titulo-24);
+  }
+}
+
+.ponto__subtitulo,
+.ponto__texto {
+  @include texto(corpo-14);
+
+  color: var(--cor-texto-secundario);
+}
+
+.ponto__corpo {
+  display: grid;
+  gap: var(--espaco-16);
+  align-items: start;
+
+  @include a-partir-de(desktop) {
+    grid-template-columns: var(--largura-detalhe-informacoes) minmax(0, 1fr);
+    gap: var(--espaco-24);
+  }
+}
+
+@mixin cartao {
+  border: var(--espessura-linha) solid var(--cor-borda-cartao);
+  border-radius: var(--raio-cartao);
+  background-color: var(--cor-fundo-superficie);
+}
+
+.ponto__informacoes {
+  @include cartao;
+
+  display: grid;
+  gap: var(--espaco-16);
+  padding: var(--espaco-20);
+}
+
+.ponto__campos {
+  display: grid;
+  margin: 0;
+}
+
+.ponto__campo {
+  display: grid;
+  gap: var(--espaco-2);
+
+  & + & {
+    margin-top: var(--espaco-16);
+    padding-top: var(--espaco-16);
+    border-top: var(--espessura-linha) solid var(--cor-borda-linha);
+  }
+}
+
+.ponto__rotulo {
+  @include texto(apoio-13);
+
+  color: var(--cor-texto-secundario);
+}
+
+.ponto__valor {
+  @include texto(corpo-14);
+
+  margin: 0;
+  overflow-wrap: anywhere;
+
+  &--vazio {
+    color: var(--cor-texto-terciario);
+  }
+}
+
+.ponto__materiais {
+  @include cartao;
+
+  overflow: hidden;
+}
+
+.ponto__materiais-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-16);
+  padding: var(--espaco-14) var(--espaco-20);
+  border-bottom: var(--espessura-linha) solid var(--cor-borda-linha);
+}
+
+.ponto__materiais-titulo {
+  @include texto(corpo-14-forte);
+}
+
+.ponto__materiais-contagem {
+  @include texto(corpo-14);
+
+  color: var(--cor-texto-secundario);
+}
+
+.ponto__lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ponto__material {
+  display: grid;
+  gap: var(--espaco-2);
+  padding: var(--espaco-14) var(--espaco-20);
+
+  & + & {
+    border-top: var(--espessura-linha) solid var(--cor-borda-linha);
+  }
+}
+
+.ponto__material-nome {
+  @include texto(corpo-14-forte);
+}
+
+.ponto__material-descricao {
+  @include texto(apoio-13);
+
+  color: var(--cor-texto-secundario);
+}
+
+.ponto__estado {
+  display: grid;
+  justify-items: start;
+  gap: var(--espaco-16);
+}

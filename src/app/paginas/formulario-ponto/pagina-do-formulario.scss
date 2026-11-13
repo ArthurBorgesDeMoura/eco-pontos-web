@@ -1,0 +1,30 @@
+@use 'abstratos' as *;
+
+.pagina-formulario {
+  display: grid;
+  gap: var(--espaco-24);
+  padding-block: var(--espaco-24) var(--espaco-48);
+
+  @include a-partir-de(desktop) {
+    padding-block: var(--espaco-40) var(--espaco-64);
+  }
+}
+
+.pagina-formulario__cabecalho {
+  display: grid;
+  gap: var(--espaco-4);
+}
+
+.pagina-formulario__titulo {
+  @include texto(titulo-22-celular);
+
+  @include a-partir-de(desktop) {
+    @include texto(titulo-24);
+  }
+}
+
+.pagina-formulario__subtitulo {
+  @include texto(corpo-14);
+
+  color: var(--cor-texto-secundario);
+}

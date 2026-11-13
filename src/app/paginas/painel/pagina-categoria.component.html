@@ -1,0 +1,75 @@
+<main class="conteudo pagina-formulario">
+  <ng-container [ngSwitch]="estado.tipo">
+    <p *ngSwitchCase="'carregando'" class="editar__carregando" role="status">{{ mensagem.carregando }}</p>
+
+    <ng-container *ngSwitchCase="'pronto'">
+      <header class="pagina-formulario__cabecalho">
+        <h1 class="pagina-formulario__titulo" tabindex="-1">{{ nova ? 'Nova categoria' : 'Editar categoria' }}</h1>
+        <p class="pagina-formulario__subtitulo">
+          {{ nova ? 'A categoria nova aparece no filtro de materiais da busca e no formulário de sugestão.' : 'Os pontos ligados a esta categoria continuam ligados a ela.' }}
+        </p>
+      </header>
+
+      <form class="formulario__cartao" [formGroup]="formulario" (ngSubmit)="enviar()" novalidate>
+        <div *ngIf="erroGeral" class="formulario__aviso" role="alert">
+          <p>{{ erroGeral }}</p>
+          <button *ngIf="podeTentarDeNovo" eco-botao type="button" tipo="secundario" tamanho="p" (click)="tentarEnviarDeNovo()">
+            Tentar de novo
+          </button>
+        </div>
+
+        <eco-campo-texto
+          data-campo="nome"
+          rotulo="Nome"
+          nome="nome"
+          autocomplete="off"
+          [obrigatorio]="true"
+          [erro]="erroDo('nome')"
+          formControlName="nome"
+        ></eco-campo-texto>
+        <eco-campo-texto
+          data-campo="descricao"
+          rotulo="Descrição (opcional)"
+          nome="descricao"
+          autocomplete="off"
+          [ajuda]="mensagem.ajudaDaDescricao"
+          [erro]="erroDo('descricao')"
+          formControlName="descricao"
+        ></eco-campo-texto>
+
+        <div class="formulario__acoes">
+          <button eco-botao type="button" tipo="secundario" [tamanho]="tamanhoDosBotoes" (click)="voltar()">Cancelar</button>
+          <button
+            eco-botao
+            type="submit"
+            class="formulario__enviar"
+            [tamanho]="tamanhoDosBotoes"
+            [attr.aria-disabled]="enviando ? 'true' : null"
+          >
+            {{ enviando ? mensagem.salvando : nova ? mensagem.cadastrar : mensagem.salvar }}
+          </button>
+        </div>
+      </form>
+    </ng-container>
+
+    <div *ngSwitchCase="'nao-encontrada'" class="editar__estado">
+      <h1 class="pagina-formulario__titulo" tabindex="-1">Categoria não encontrada</h1>
+      <p class="pagina-formulario__subtitulo">Confira o endereço ou volte à lista de categorias.</p>
+      <a eco-botao tipo="secundario" [routerLink]="rotaDoPainel" [queryParams]="{ aba: 'categorias' }">Voltar ao painel</a>
+    </div>
+
+    <div *ngSwitchCase="'erro'" class="editar__estado" role="alert">
+      <h1 class="pagina-formulario__titulo" tabindex="-1">Não foi possível abrir a categoria</h1>
+      <p *ngIf="estado.tipo === 'erro'" class="pagina-formulario__subtitulo">{{ estado.mensagem }}</p>
+      <button
+        eco-botao
+        type="button"
+        tipo="secundario"
+        [attr.aria-disabled]="tentando ? 'true' : null"
+        (click)="tentarDeNovo()"
+      >
+        Tentar de novo
+      </button>
+    </div>
+  </ng-container>
+</main>

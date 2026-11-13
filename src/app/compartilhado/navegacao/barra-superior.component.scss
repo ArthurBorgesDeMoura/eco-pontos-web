@@ -1,0 +1,57 @@
+@use 'abstratos' as *;
+
+:host {
+  display: block;
+  height: var(--altura-barra-superior);
+  border-bottom: var(--espessura-linha) solid var(--cor-borda-linha);
+  background-color: var(--cor-fundo-superficie);
+}
+
+.barra {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-32);
+  height: 100%;
+}
+
+.barra__marca {
+  display: inline-flex;
+  flex-shrink: 0;
+  border-radius: var(--raio-controle);
+  color: inherit;
+  text-decoration: none;
+}
+
+.barra__links {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-4);
+}
+
+.barra__espaco {
+  flex: 1;
+}
+
+.barra__acoes {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--espaco-8);
+}
+
+.barra__conta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-8);
+  min-width: 0;
+}
+
+.barra__nome {
+  @include texto(corpo-14-medio);
+
+  max-width: var(--largura-nome-barra);
+  overflow: hidden;
+  color: var(--cor-texto-principal);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

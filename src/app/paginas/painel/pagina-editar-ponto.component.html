@@ -1,0 +1,41 @@
+<main class="conteudo pagina-formulario">
+  <ng-container [ngSwitch]="estado.tipo">
+    <p *ngSwitchCase="'carregando'" class="editar__carregando" role="status">{{ mensagem.carregando }}</p>
+
+    <ng-container *ngSwitchCase="'pronto'">
+      <header class="pagina-formulario__cabecalho">
+        <h1 class="pagina-formulario__titulo" tabindex="-1">Editar ponto</h1>
+        <p class="pagina-formulario__subtitulo">As alterações aparecem na busca assim que você salvar.</p>
+      </header>
+      <eco-formulario-ponto
+        *ngIf="estado.tipo === 'pronto'"
+        [inicial]="estado.inicial"
+        [rotuloDoEnvio]="mensagem.salvar"
+        [rotuloEnviando]="mensagem.salvando"
+        [enviarCom]="salvar"
+        (enviado)="aoSalvar()"
+        (cancelado)="voltar()"
+      ></eco-formulario-ponto>
+    </ng-container>
+
+    <div *ngSwitchCase="'nao-encontrado'" class="editar__estado">
+      <h1 class="pagina-formulario__titulo" tabindex="-1">Ponto não encontrado</h1>
+      <p class="pagina-formulario__subtitulo">O ponto pode ter sido excluído, ou o endereço está errado.</p>
+      <a eco-botao tipo="secundario" [routerLink]="rotaDoPainel" [queryParams]="{ aba: 'pontos' }">Voltar ao painel</a>
+    </div>
+
+    <div *ngSwitchCase="'erro'" class="editar__estado" role="alert">
+      <h1 class="pagina-formulario__titulo" tabindex="-1">Não foi possível abrir o ponto</h1>
+      <p *ngIf="estado.tipo === 'erro'" class="pagina-formulario__subtitulo">{{ estado.mensagem }}</p>
+      <button
+        eco-botao
+        type="button"
+        tipo="secundario"
+        [attr.aria-disabled]="tentando ? 'true' : null"
+        (click)="tentarDeNovo()"
+      >
+        Tentar de novo
+      </button>
+    </div>
+  </ng-container>
+</main>

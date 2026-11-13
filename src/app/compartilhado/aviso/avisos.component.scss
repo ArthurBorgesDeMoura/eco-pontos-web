@@ -1,0 +1,28 @@
+@use 'abstratos' as *;
+
+.avisos {
+  position: fixed;
+  right: 0;
+  bottom: var(--espaco-aviso-celular);
+  left: 0;
+  z-index: var(--camada-aviso);
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--margem-pagina);
+  pointer-events: none;
+
+  @include a-partir-de(desktop) {
+    top: var(--espaco-aviso-desktop);
+    bottom: auto;
+  }
+}
+
+.avisos__aviso {
+  @include animar-entrada(eco-aviso-entrar, var(--duracao-aviso));
+
+  pointer-events: auto;
+
+  &--saindo {
+    @include animar-saida(eco-aviso-sair, var(--duracao-aviso-saida));
+  }
+}

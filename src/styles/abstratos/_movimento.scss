@@ -1,0 +1,56 @@
+@mixin ao-passar-o-mouse {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin pressionavel {
+  @media (prefers-reduced-motion: no-preference) {
+    transition: transform var(--duracao-pressionar) var(--curva-entrada);
+
+    &:active {
+      transform: scale(var(--escala-pressionar));
+    }
+  }
+}
+
+@mixin realce-ao-passar($cor: var(--cor-fundo-ativo)) {
+  position: relative;
+  isolation: isolate;
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: $cor;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duracao-hover) var(--curva-hover);
+    content: '';
+  }
+
+  @include ao-passar-o-mouse {
+    &::after {
+      opacity: 1;
+    }
+  }
+}
+
+@mixin animar-entrada($animacao, $duracao, $curva: var(--curva-entrada)) {
+  animation: $animacao $duracao $curva both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: eco-esmaecer-entrar var(--duracao-esmaecer) var(--curva-hover) both;
+  }
+}
+
+@mixin animar-saida($animacao, $duracao, $curva: var(--curva-entrada)) {
+  animation: $animacao $duracao $curva both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: eco-esmaecer-sair var(--duracao-esmaecer) var(--curva-hover) both;
+  }
+}

@@ -1,0 +1,23 @@
+<button
+  *ngIf="variante === 'filtro'; else formulario"
+  type="button"
+  class="chip"
+  [class.chip--ligado]="ligado"
+  [attr.aria-pressed]="ligado"
+  [disabled]="desabilitado"
+  (click)="alternar()"
+>
+  {{ rotulo }}
+</button>
+
+<ng-template #formulario>
+  <input
+    type="checkbox"
+    class="so-leitor-de-tela chip__caixa-nativa"
+    [id]="id"
+    [checked]="ligado"
+    [disabled]="desabilitado"
+    (change)="alternar()"
+  />
+  <label class="chip" [class.chip--ligado]="ligado" [attr.for]="id">{{ rotulo }}</label>
+</ng-template>

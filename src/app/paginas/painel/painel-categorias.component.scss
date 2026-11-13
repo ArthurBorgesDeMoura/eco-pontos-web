@@ -1,0 +1,23 @@
+@use 'abstratos' as *;
+
+:host {
+  display: block;
+}
+
+.categorias__nome {
+  @include texto(corpo-14-forte);
+
+  display: block;
+  color: var(--cor-texto-principal);
+}
+
+.categorias__pontos {
+  @include texto(corpo-14);
+
+  display: block;
+  color: var(--cor-texto-principal);
+}
+
+.categorias__sem-descricao {
+  color: var(--cor-texto-terciario);
+}

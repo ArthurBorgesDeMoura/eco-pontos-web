@@ -1,0 +1,112 @@
+<main class="conteudo ponto">
+  <a class="ponto__voltar" [href]="busca" (click)="voltar($event)">
+    <eco-icone nome="seta-esquerda" [tamanho]="16"></eco-icone>Pontos de coleta
+  </a>
+
+  <p class="so-leitor-de-tela" role="status">{{ anuncio }}</p>
+
+  <ng-container *ngIf="estado.tipo === 'carregando'">
+    <div class="ponto__pagina" aria-hidden="true">
+      <div class="ponto__cabecalho">
+        <span class="ponto__titulo esqueleto-barra esqueleto-barra--curta">&nbsp;</span>
+        <span class="ponto__subtitulo esqueleto-barra esqueleto-barra--curta">&nbsp;</span>
+      </div>
+      <div class="ponto__corpo">
+        <div class="ponto__informacoes">
+          <div class="ponto__campos">
+            <div *ngFor="let campo of camposDoEsqueleto" class="ponto__campo">
+              <span class="ponto__rotulo esqueleto-barra esqueleto-barra--curta">&nbsp;</span>
+              <span class="ponto__valor esqueleto-barra">&nbsp;</span>
+            </div>
+          </div>
+          <span class="esqueleto-vaga">
+            <a eco-botao tamanho="g" [larguraTotal]="true" [iconeExterno]="true">Abrir no mapa</a>
+          </span>
+        </div>
+        <div class="ponto__materiais">
+          <div class="ponto__materiais-cabecalho">
+            <span class="ponto__materiais-titulo esqueleto-barra esqueleto-barra--curta">&nbsp;</span>
+          </div>
+          <div *ngFor="let material of materiaisDoEsqueleto" class="ponto__material">
+            <span class="ponto__material-nome esqueleto-barra esqueleto-barra--curta">&nbsp;</span>
+            <span class="ponto__material-descricao esqueleto-barra esqueleto-barra--longa">&nbsp;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <div *ngIf="ponto as ponto" class="ponto__pagina">
+    <header class="ponto__cabecalho">
+      <h1 class="ponto__titulo" tabindex="-1">{{ ponto.nome }}</h1>
+      <p class="ponto__subtitulo">{{ ponto.bairro.nome }} · Uberlândia – MG</p>
+    </header>
+
+    <div class="ponto__corpo">
+      <section class="ponto__informacoes" aria-label="Informações do ponto">
+        <dl class="ponto__campos">
+          <div class="ponto__campo">
+            <dt class="ponto__rotulo">Endereço</dt>
+            <dd class="ponto__valor">{{ ponto.endereco }}</dd>
+          </div>
+          <div class="ponto__campo">
+            <dt class="ponto__rotulo">Bairro</dt>
+            <dd class="ponto__valor">{{ ponto.bairro.nome }}</dd>
+          </div>
+          <div class="ponto__campo">
+            <dt class="ponto__rotulo">Horário de funcionamento</dt>
+            <dd class="ponto__valor" [class.ponto__valor--vazio]="!ponto.horario">{{ ponto.horario || naoInformado }}</dd>
+          </div>
+          <div class="ponto__campo">
+            <dt class="ponto__rotulo">Contato</dt>
+            <dd class="ponto__valor" [class.ponto__valor--vazio]="!ponto.contato">{{ ponto.contato || naoInformado }}</dd>
+          </div>
+        </dl>
+        <a
+          eco-botao
+          class="ponto__mapa"
+          tamanho="g"
+          [larguraTotal]="true"
+          [iconeExterno]="true"
+          [href]="mapa"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Abrir no mapa<span class="so-leitor-de-tela"> (abre em outra aba)</span></a
+        >
+      </section>
+
+      <section class="ponto__materiais" aria-labelledby="ponto-materiais">
+        <header class="ponto__materiais-cabecalho">
+          <h2 class="ponto__materiais-titulo" id="ponto-materiais">Materiais aceitos</h2>
+          <span class="ponto__materiais-contagem" aria-hidden="true">{{ ponto.materiais.length }}</span>
+        </header>
+        <ul class="ponto__lista">
+          <li *ngFor="let material of ponto.materiais" class="ponto__material">
+            <span class="ponto__material-nome">{{ material.nome }}</span>
+            <span *ngIf="material.descricao" class="ponto__material-descricao">{{ material.descricao }}</span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <div *ngIf="estado.tipo === 'nao-encontrado'" class="ponto__estado">
+    <h1 class="ponto__titulo" tabindex="-1">Ponto não encontrado</h1>
+    <p class="ponto__texto">O ponto pode ter saído da lista, ou o endereço está errado.</p>
+    <a eco-botao tipo="secundario" [routerLink]="busca">Ir para a busca</a>
+  </div>
+
+  <div *ngIf="mensagemDeErro as mensagem" class="ponto__estado" role="alert">
+    <h1 class="ponto__titulo" tabindex="-1">Não foi possível abrir o ponto</h1>
+    <p class="ponto__texto">{{ mensagem }}</p>
+    <button
+      eco-botao
+      type="button"
+      tipo="secundario"
+      [attr.aria-disabled]="tentando ? 'true' : null"
+      (click)="tentarDeNovo()"
+    >
+      Tentar de novo
+    </button>
+  </div>
+</main>

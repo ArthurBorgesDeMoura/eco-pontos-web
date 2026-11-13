@@ -1,0 +1,31 @@
+@use 'abstratos' as *;
+
+:host {
+  @include texto(corpo-14-medio);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--controle-altura-p);
+  padding: 0 var(--espaco-12);
+  border-radius: var(--raio-controle);
+  color: var(--cor-texto-secundario);
+  white-space: nowrap;
+  text-decoration: none;
+
+  @include ao-passar-o-mouse {
+    background-color: var(--cor-fundo-rebaixado);
+    color: var(--cor-texto-principal);
+  }
+}
+
+:host(.link--forcar-hover) {
+  background-color: var(--cor-fundo-rebaixado);
+  color: var(--cor-texto-principal);
+}
+
+:host(.link--ativo),
+:host(.link--ativo:hover) {
+  background-color: var(--cor-fundo-ativo);
+  color: var(--cor-texto-principal);
+}

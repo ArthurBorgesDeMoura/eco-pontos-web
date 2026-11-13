@@ -1,0 +1,46 @@
+<ng-container *ngIf="!esqueleto; else modeloDoEsqueleto">
+  <div class="linha__texto">
+    <a *ngIf="rota; else semRota" class="linha__nome linha__nome--link" [routerLink]="$any(rota)">{{ nome }}</a>
+    <ng-template #semRota><span class="linha__nome">{{ nome }}</span></ng-template>
+    <span class="linha__local">{{ local }}</span>
+    <span *ngIf="listaDeMateriais" class="linha__materiais">{{ listaDeMateriais }}</span>
+  </div>
+
+  <a
+    eco-botao
+    class="linha__mapa linha__mapa--linha"
+    tipo="secundario"
+    tamanho="p"
+    [iconeExterno]="true"
+    [href]="mapa"
+    target="_blank"
+    rel="noopener noreferrer"
+    >Abrir no mapa<span class="so-leitor-de-tela"> de {{ nome }} (abre em outra aba)</span></a
+  >
+  <a
+    eco-botao
+    class="linha__mapa linha__mapa--cartao"
+    tipo="texto"
+    tamanho="g"
+    [iconeExterno]="true"
+    [larguraTotal]="true"
+    [href]="mapa"
+    target="_blank"
+    rel="noopener noreferrer"
+    >Abrir no mapa<span class="so-leitor-de-tela"> de {{ nome }} (abre em outra aba)</span></a
+  >
+</ng-container>
+
+<ng-template #modeloDoEsqueleto>
+  <div class="linha__texto">
+    <span class="linha__nome esqueleto-barra esqueleto-barra--curta">&nbsp;</span>
+    <span class="linha__local esqueleto-barra esqueleto-barra--longa">&nbsp;</span>
+    <span class="linha__materiais esqueleto-barra">&nbsp;</span>
+  </div>
+  <span class="linha__mapa linha__mapa--linha esqueleto-vaga">
+    <a eco-botao tipo="secundario" tamanho="p" [iconeExterno]="true">Abrir no mapa</a>
+  </span>
+  <span class="linha__mapa linha__mapa--cartao esqueleto-vaga esqueleto-vaga--texto">
+    <a eco-botao tipo="texto" tamanho="g" [iconeExterno]="true" [larguraTotal]="true">Abrir no mapa</a>
+  </span>
+</ng-template>

@@ -1,0 +1,28 @@
+<label class="campo__rotulo" [attr.for]="id">{{ rotulo }}</label>
+<div
+  class="campo__caixa"
+  [class.campo__caixa--erro]="!!erro"
+  [class.campo__caixa--foco]="estadoForcado === 'foco'"
+  [class.campo__caixa--desabilitada]="desativado"
+  (click)="entrada.focus()"
+>
+  <input
+    #entrada
+    class="campo__entrada"
+    [id]="id"
+    [type]="tipo"
+    [value]="valor"
+    [attr.placeholder]="marcador || null"
+    [attr.autocomplete]="autocomplete || null"
+    [attr.name]="nome || null"
+    [attr.maxlength]="maximo ?? null"
+    [required]="obrigatorio"
+    [disabled]="desativado"
+    [attr.aria-invalid]="erro ? 'true' : null"
+    [attr.aria-describedby]="descricao"
+    (input)="aoDigitar($event)"
+    (blur)="aoSair()"
+  />
+</div>
+<p *ngIf="erro" class="campo__erro" [id]="id + '-erro'">{{ erro }}</p>
+<p *ngIf="ajuda && !erro" class="campo__ajuda" [id]="id + '-ajuda'">{{ ajuda }}</p>

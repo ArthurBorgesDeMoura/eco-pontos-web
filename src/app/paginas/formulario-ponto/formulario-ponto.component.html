@@ -1,0 +1,103 @@
+<form class="formulario__cartao" [formGroup]="formulario" (ngSubmit)="enviar()" novalidate>
+  <div *ngIf="erroDasListas" class="formulario__aviso" role="alert">
+    <p>Não foi possível carregar os bairros e os materiais. {{ erroDasListas }}</p>
+    <button
+      eco-botao
+      type="button"
+      tipo="secundario"
+      tamanho="p"
+      [attr.aria-disabled]="carregandoListas ? 'true' : null"
+      (click)="carregarListas()"
+    >
+      Tentar de novo
+    </button>
+  </div>
+
+  <div *ngIf="erroGeral" class="formulario__aviso" role="alert">
+    <p>{{ erroGeral }}</p>
+    <button *ngIf="podeTentarDeNovo" eco-botao type="button" tipo="secundario" tamanho="p" (click)="tentarEnviarDeNovo()">
+      Tentar de novo
+    </button>
+  </div>
+
+  <eco-campo-texto
+    data-campo="nome"
+    rotulo="Nome do ponto"
+    nome="nome"
+    autocomplete="off"
+    [obrigatorio]="true"
+    [erro]="erroDo('nome')"
+    formControlName="nome"
+  ></eco-campo-texto>
+  <eco-campo-texto
+    data-campo="endereco"
+    rotulo="Endereço"
+    nome="endereco"
+    autocomplete="off"
+    [obrigatorio]="true"
+    [erro]="erroDo('endereco')"
+    formControlName="endereco"
+  ></eco-campo-texto>
+  <eco-seletor
+    data-campo="idBairro"
+    rotulo="Bairro"
+    [marcador]="carregandoListas ? 'Carregando bairros…' : 'Selecione o bairro'"
+    [opcoes]="opcoesDeBairro"
+    [obrigatorio]="true"
+    [erro]="erroDo('idBairro')"
+    formControlName="idBairro"
+  ></eco-seletor>
+
+  <div class="formulario__dupla">
+    <eco-campo-texto
+      data-campo="horario"
+      rotulo="Horário (opcional)"
+      nome="horario"
+      marcador="7h às 19h, todos os dias"
+      autocomplete="off"
+      [erro]="erroDo('horario')"
+      formControlName="horario"
+    ></eco-campo-texto>
+    <eco-campo-texto
+      data-campo="contato"
+      rotulo="Contato (opcional)"
+      nome="contato"
+      autocomplete="off"
+      [erro]="erroDo('contato')"
+      formControlName="contato"
+    ></eco-campo-texto>
+  </div>
+
+  <fieldset
+    class="formulario__materiais"
+    data-campo="categorias"
+    [attr.aria-describedby]="erroDo('categorias') ? 'formulario-materiais-erro' : 'formulario-materiais-ajuda'"
+  >
+    <legend class="formulario__rotulo">Materiais aceitos<span class="so-leitor-de-tela"> (obrigatório)</span></legend>
+    <p class="formulario__ajuda" id="formulario-materiais-ajuda">Marque todos os materiais que o ponto recebe.</p>
+    <p *ngIf="carregandoListas" class="formulario__ajuda">Carregando materiais…</p>
+    <div class="formulario__chips">
+      <eco-chip-material
+        *ngFor="let categoria of categorias"
+        variante="formulario"
+        [rotulo]="categoria.nome"
+        [ligado]="escolhida(categoria.idCategoria)"
+        (ligadoChange)="alternar(categoria.idCategoria, $event)"
+      ></eco-chip-material>
+    </div>
+    <p *ngIf="erroDo('categorias') as erro" class="formulario__erro" id="formulario-materiais-erro">{{ erro }}</p>
+  </fieldset>
+
+  <div class="formulario__acoes">
+    <button eco-botao type="button" tipo="secundario" [tamanho]="tamanhoDosBotoes" (click)="cancelado.emit()">Cancelar</button>
+    <button
+      eco-botao
+      type="submit"
+      class="formulario__enviar"
+      [tamanho]="tamanhoDosBotoes"
+      [attr.aria-disabled]="enviando ? 'true' : null"
+    >
+      {{ enviando ? rotuloEnviando : rotuloDoEnvio }}
+    </button>
+  </div>
+</form>

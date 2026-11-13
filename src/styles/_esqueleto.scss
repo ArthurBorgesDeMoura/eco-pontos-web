@@ -1,0 +1,44 @@
+.esqueleto-barra {
+  position: relative;
+  width: 60%;
+  color: transparent;
+  user-select: none;
+
+  &::before {
+    position: absolute;
+    inset: 20% 0;
+    border-radius: var(--raio-tag);
+    background-color: var(--cor-fundo-rebaixado);
+    content: '';
+  }
+
+  &--curta {
+    width: 40%;
+  }
+
+  &--longa {
+    width: 75%;
+  }
+}
+
+.esqueleto-vaga {
+  position: relative;
+  display: flex;
+
+  > * {
+    visibility: hidden;
+  }
+
+  &::before {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--raio-controle);
+    background-color: var(--cor-fundo-rebaixado);
+    content: '';
+  }
+
+  &--texto::before {
+    inset: 32% 36%;
+    border-radius: var(--raio-tag);
+  }
+}

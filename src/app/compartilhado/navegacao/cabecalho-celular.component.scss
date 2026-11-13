@@ -1,0 +1,55 @@
+@use 'abstratos' as *;
+
+:host {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-8);
+  height: var(--altura-cabecalho-celular);
+  padding: 0 var(--espaco-8) 0 var(--espaco-16);
+  border-bottom: var(--espessura-linha) solid var(--cor-borda-linha);
+  background-color: var(--cor-fundo-superficie);
+}
+
+:host(.cabecalho--interna) {
+  padding-left: var(--espaco-4);
+}
+
+.cabecalho__marca {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--alvo-toque);
+  border-radius: var(--raio-controle);
+  color: inherit;
+  text-decoration: none;
+}
+
+.cabecalho__espaco {
+  flex: 1;
+}
+
+.cabecalho__botao {
+  @include realce-ao-passar(var(--cor-fundo-rebaixado));
+  @include pressionavel;
+
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: var(--alvo-toque);
+  height: var(--alvo-toque);
+  padding: 0;
+  border: 0;
+  border-radius: var(--raio-controle);
+  background-color: transparent;
+  color: var(--cor-texto-principal);
+  cursor: pointer;
+}
+
+.cabecalho__titulo {
+  @include texto(secao-16);
+
+  min-width: 0;
+  overflow: hidden;
+  color: var(--cor-texto-principal);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

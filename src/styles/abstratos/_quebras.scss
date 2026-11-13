@@ -1,0 +1,26 @@
+@use 'sass:map';
+
+$quebras: (
+  tablet: 768px,
+  desktop: 1024px,
+);
+
+@function largura-da-quebra($faixa) {
+  @if not map.has-key($quebras, $faixa) {
+    @error 'Faixa desconhecida: #{$faixa}. Use tablet ou desktop.';
+  }
+
+  @return map.get($quebras, $faixa);
+}
+
+@mixin a-partir-de($faixa) {
+  @media (min-width: largura-da-quebra($faixa)) {
+    @content;
+  }
+}
+
+@mixin abaixo-de($faixa) {
+  @media (max-width: (largura-da-quebra($faixa) - 0.02px)) {
+    @content;
+  }
+}
